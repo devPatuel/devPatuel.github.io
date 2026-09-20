@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GrowTogether — Jordi Patuel</title>
+  <meta name="description" content="GrowTogether, app de hábitos con componente social: Trabajo Final de Grado de DAM de Jordi Patuel, con su arquitectura y decisiones técnicas." />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jWJpzolVsjbyG4xpMGS0xwi/YHlQoPdDQBvqZ9jGw8I='; style-src 'self'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';" />
+  <script>
+    (function () {
+      var tema = null;
+      try { tema = localStorage.getItem('tema'); } catch (e) {}
+      if (tema !== 'claro' && tema !== 'oscuro') {
+        tema = 'claro';
+      }
+      document.documentElement.dataset.tema = tema;
+      document.documentElement.classList.add('js');
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script src="../js/tema.js" defer></script>
+  <script src="../js/diagrama-portal.js" defer></script>
+  <script src="../js/copiar-email.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+
+  <!-- Shared arrow markers for every architecture diagram on the page -->
+  <svg class="diagram-defs" aria-hidden="true">
+    <defs>
+      <marker id="arch-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--line)"></path>
+      </marker>
+      <marker id="arch-arrow-on" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"></path>
+      </marker>
+    </defs>
+  </svg>
+
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="wordmark" href="../index.html#inicio">Jordi Patuel</a>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="../index.html#trayectoria">Trayectoria</a>
+        <a href="../index.html#proyectos">Proyectos</a>
+        <a href="../cv.html">CV</a>
+        <a href="#contacto">Contacto</a>
+        <button class="tema-toggle" type="button" aria-pressed="false" aria-label="Cambiar a modo oscuro" hidden>
+          <svg class="icon icon-sol" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.5"/><path d="M10 2v2M10 16v2M18 10h-2M4 10H2M15.5 4.5l-1.4 1.4M5.9 14.1l-1.4 1.4M15.5 15.5l-1.4-1.4M5.9 5.9L4.5 4.5"/></svg>
+          <svg class="icon icon-luna" viewBox="0 0 20 20" aria-hidden="true"><path d="M17.5 10.66A7.5 7.5 0 119.34 2.5a5.83 5.83 0 008.16 8.16z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" class="ficha" tabindex="-1">
+    <section class="ficha-cabecera">
+      <p class="ficha-volver"><a href="../index.html#proyectos">← Volver a proyectos</a></p>
+      <h1 class="ficha-titulo"><img class="ficha-logo" src="../img/growtogether/logo.png" alt="" width="128" height="128" />GrowTogether</h1>
+      <p class="lede">Una app de hábitos con componente social, inspirada en <em>Atomic Habits</em> de James Clear: construye hábitos consistentes, visualiza tu progreso y compite con amigos en desafíos.</p>
+      <dl class="ficha-datos">
+        <div>
+          <dt>Cuándo</dt>
+          <dd>2025/2026 · Trabajo Final de Grado de DAM</dd>
+        </div>
+        <div>
+          <dt>Rol</dt>
+          <dd>Todo el proyecto, en solitario</dd>
+        </div>
+        <div>
+          <dt>Stack</dt>
+          <dd><ul class="stack-tags" role="list">
+        <li>Java 17</li>
+        <li>Spring Boot 3.3</li>
+        <li>PostgreSQL</li>
+        <li>JWT</li>
+        <li>Flutter 3.38</li>
+        <li>Dart 3.10</li>
+        <li>Provider</li>
+        <li>Docker</li>
+      </ul></dd>
+        </div>
+        <div>
+          <dt>Enlaces</dt>
+          <dd><ul class="repo-list" role="list">
+        <li>
+          <a href="https://github.com/devPatuel/GrowTogetherAPI" target="_blank" rel="noopener noreferrer">GrowTogetherAPI</a>
+          <span>Backend REST — autenticación, hábitos, desafíos, administración</span>
+        </li>
+        <li>
+          <a href="https://github.com/devPatuel/GrowTogetherAPP" target="_blank" rel="noopener noreferrer">GrowTogetherAPP</a>
+          <span>App móvil que usan los usuarios finales</span>
+        </li>
+        <li>
+          <a href="https://github.com/devPatuel/GrowTogetherADMIN" target="_blank" rel="noopener noreferrer">GrowTogetherADMIN</a>
+          <span>Panel de administración web, uso interno</span>
+        </li>
+        <li>
+          <a href="https://github.com/devPatuel/GrowTogetherDATA" target="_blank" rel="noopener noreferrer">GrowTogetherDATA</a>
+          <span>Paquete Dart compartido entre app y panel</span>
+        </li>
+        <li>
+          <a href="growtogether-memoria.html">Memoria del proyecto</a>
+          <span>PDF de 59 páginas: análisis, arquitectura, decisiones y despliegue</span>
+        </li>
+      </ul></dd>
+        </div>
+      </dl>
+      <p class="nota">El proyecto ya no está desplegado: no hay demo en línea ni APK que descargar. El código completo está en los cuatro repositorios, y la memoria explica cómo funcionaba por dentro.</p>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Qué es</h2>
+      <ul class="feature-list">
+        <li>Autenticación JWT con revocación de tokens y rate limiting propio</li>
+        <li>Hábitos con rachas, historial y heatmap de actividad hecho desde cero</li>
+        <li>Desafíos entre amigos y consejos diarios</li>
+        <li>Panel de administración con auditoría de acciones</li>
+        <li>App en tres idiomas: español, inglés y catalán</li>
+      </ul>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Arquitectura</h2>
+      <p class="lede">Por dentro son cuatro repositorios: la app y el panel de administración se apoyan en una API propia y un paquete de datos compartido.</p>
+
+      <div class="arch arch-compact" data-arch>
+        <figure class="diagram" aria-labelledby="diagram-caption">
+          <svg viewBox="0 0 600 340" aria-label="Diagrama de arquitectura: la app y el panel de administración dependen del paquete de datos compartido, que consume la API">
+            <g class="link" data-a="app" data-b="data"><line class="link-line" x1="150" y1="80" x2="290" y2="165"/></g>
+            <g class="link" data-a="admin" data-b="data"><line class="link-line" x1="450" y1="80" x2="310" y2="165"/></g>
+            <g class="link" data-a="data" data-b="api"><line class="link-line" x1="300" y1="205" x2="300" y2="255"/></g>
+
+            <g class="node" data-id="app">
+              <rect x="70" y="30" width="160" height="60" rx="2"/>
+              <text x="150" y="55" text-anchor="middle" class="node-title">APP</text>
+              <text x="150" y="74" text-anchor="middle" class="node-sub">Flutter · Android</text>
+            </g>
+
+            <g class="node" data-id="admin">
+              <rect x="370" y="30" width="160" height="60" rx="2"/>
+              <text x="450" y="55" text-anchor="middle" class="node-title">ADMIN</text>
+              <text x="450" y="74" text-anchor="middle" class="node-sub">Flutter Web</text>
+            </g>
+
+            <g class="node node-accent" data-id="data">
+              <rect x="220" y="165" width="160" height="60" rx="2"/>
+              <text x="300" y="190" text-anchor="middle" class="node-title">DATA</text>
+              <text x="300" y="209" text-anchor="middle" class="node-sub">paquete Dart</text>
+            </g>
+
+            <g class="node" data-id="api">
+              <rect x="220" y="255" width="160" height="60" rx="2"/>
+              <text x="300" y="280" text-anchor="middle" class="node-title">API</text>
+              <text x="300" y="299" text-anchor="middle" class="node-sub">Spring Boot</text>
+            </g>
+          </svg>
+          <figcaption id="diagram-caption">Un mismo paquete de datos alimenta la app y el panel; solo él habla con la API.</figcaption>
+        </figure>
+
+        <div class="arch-panel" aria-live="polite">
+          <p class="arch-hint" hidden>Pulsa una pieza del diagrama para ver qué hace y con qué se conecta.</p>
+          <dl class="decision-list arch-details">
+            <div class="decision" data-id="app">
+              <dt>APP</dt>
+              <dd>App Flutter que usan los usuarios finales: hábitos con rachas y un heatmap de actividad hecho a mano, desafíos entre amigos y consejos diarios, en español, inglés y catalán. Sigue funcionando sin cobertura leyendo de una caché local. <a href="#decision-heatmap">Por qué el heatmap es propio</a> · <a href="#decision-app-sin-cobertura">Por qué no se cae sin conexión</a></dd>
+            </div>
+            <div class="decision" data-id="admin">
+              <dt>ADMIN</dt>
+              <dd>Panel de administración en Flutter Web, de uso interno, con auditoría de las acciones del equipo. Comparte toda su lógica de datos con la app a través de DATA.</dd>
+            </div>
+            <div class="decision" data-id="data">
+              <dt>DATA</dt>
+              <dd>Paquete Dart compartido entre la app y el panel: es el único que habla con la API, así ambos consumen hábitos, desafíos y datos de usuario de la misma forma, sin duplicar lógica.</dd>
+            </div>
+            <div class="decision" data-id="api">
+              <dt>API</dt>
+              <dd>Backend en Spring Boot: autenticación, hábitos, desafíos y lo que necesita el panel de administración. Un job programado a medianoche rellena el historial para que las estadísticas del día siguiente estén listas. <a href="#decision-revocar-sesion">Por qué no hay blacklist de tokens</a> · <a href="#decision-historial-sin-huecos">Por qué no hay huecos en el historial</a></dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Capturas</h2>
+      <div class="shots">
+        <figure class="shot">
+          <img src="../img/growtogether/habitos-dia.jpg" alt="Pantalla de inicio de la app: progreso del día y lista de hábitos, cada uno con su racha." width="540" height="1043" loading="lazy" decoding="async" />
+          <figcaption>Los hábitos del día, con la racha de cada uno.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="../img/growtogether/crear-habito.jpg" alt="Formulario de nuevo hábito: selector de hábito positivo o negativo, nombre, descripción y una rejilla de iconos." width="540" height="1043" loading="lazy" decoding="async" />
+          <figcaption>Crear un hábito, positivo o negativo, con su icono.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="../img/growtogether/analisis.jpg" alt="Pantalla de análisis: mapa de calor del año, totales de hábitos completados y ranking de mejores rachas." width="540" height="1043" loading="lazy" decoding="async" />
+          <figcaption>Mapa de calor del año y récords de racha.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="../img/growtogether/desafios.jpg" alt="Pantalla de desafíos: retos activos con sus participantes, días restantes y barra de progreso." width="540" height="1043" loading="lazy" decoding="async" />
+          <figcaption>Desafíos en grupo, con progreso y participantes.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="../img/growtogether/podio.jpg" alt="Detalle de un desafío: botón de hecho hoy con la racha y un podio con los tres participantes que más puntos llevan." width="540" height="1043" loading="lazy" decoding="async" />
+          <figcaption>El podio del desafío, con los puntos de cada participante.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="../img/growtogether/idiomas.jpg" alt="Pantalla de perfil con el selector de idioma abierto: castellano, inglés y valenciano." width="540" height="1043" loading="lazy" decoding="async" />
+          <figcaption>La app está en castellano, inglés y valenciano.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="../img/growtogether/sin-conexion.jpg" alt="La misma pantalla de inicio con un aviso rojo de sin conexión, mostrando los datos guardados en el dispositivo." width="540" height="1043" loading="lazy" decoding="async" />
+          <figcaption>Sin conexión: la app avisa y sigue mostrando los datos del dispositivo.</figcaption>
+        </figure>
+      </div>
+      <figure class="shot shot-ancha">
+        <img src="../img/growtogether/panel-metricas.jpg" alt="Panel de administración web: tarjetas con usuarios activos, hábitos creados y desafíos, y un gráfico de altas por mes." width="1400" height="490" loading="lazy" decoding="async" />
+        <figcaption>El panel de administración, en web: métricas de uso y altas por mes.</figcaption>
+      </figure>
+      <figure class="shot shot-ancha">
+        <img src="../img/growtogether/panel-consejos.jpg" alt="Panel de administración: tabla de consejos diarios con fecha, título, descripción y estado, y pestañas de lista y calendario." width="1400" height="560" loading="lazy" decoding="async" />
+        <figcaption>Los consejos diarios se programan desde el panel, en lista o en calendario.</figcaption>
+      </figure>
+    </section>
+
+    <section class="ficha-seccion" id="decisiones">
+      <h2>Decisiones técnicas</h2>
+      <p class="lede">Cada decisión de arquitectura quedó documentada con las alternativas que descarté y por qué.</p>
+      <dl class="decision-list">
+        <div class="decision" id="decision-revocar-sesion">
+          <dt>Revocar sesión sin tabla extra</dt>
+          <dd>Un campo <code>tokenVersion</code> en vez de una blacklist en base de datos o Redis: revocación inmediata sin romper el modelo stateless de JWT.</dd>
+        </div>
+        <div class="decision" id="decision-heatmap">
+          <dt>Heatmap de actividad hecho desde cero</dt>
+          <dd>En vez de un paquete de terceros, construí el calendario de calor a mano para controlar colores, tamaños y la diferencia entre «no completado» y «día futuro».</dd>
+        </div>
+        <div class="decision" id="decision-historial-sin-huecos">
+          <dt>Historial sin huecos, sin filas de sobra</dt>
+          <dd>Los días sin interacción no generan registro; una tarea programada a medianoche rellena los huecos para que las estadísticas del día siguiente estén listas.</dd>
+        </div>
+        <div class="decision" id="decision-app-sin-cobertura">
+          <dt>La app no se cae sin cobertura</dt>
+          <dd>Lectura tolerante a red con caché local; las acciones que sí necesitan conexión avisan con claridad. Sin la complejidad de una cola de sincronización offline completa.</dd>
+        </div>
+        <div class="decision" id="decision-ciclo-dependencias">
+          <dt>Romper un ciclo de dependencias</dt>
+          <dd>Separé el <code>PasswordEncoder</code> de la configuración de seguridad para evitar un ciclo real entre Spring Security y el servicio de usuarios.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="ficha-seccion ficha-cierre">
+      <h2>Más detalles del proyecto</h2>
+      <p>Todo lo que hay en esta página sale de la memoria que presenté: los requisitos, los casos de uso, los diagramas de clases y de base de datos, las pruebas y el despliegue, con el porqué de cada decisión.</p>
+      <div class="intro-actions">
+        <a class="btn btn-primary" href="growtogether-memoria.html">Leer la memoria completa</a>
+      </div>
+    </section>
+  </main>
+
+  <nav class="ficha-siguiente" aria-label="Siguiente proyecto">
+    <a href="portal-empleados.html">Siguiente proyecto: Portal de empleados →</a>
+  </nav>
+
+  <footer id="contacto" class="site-footer">
+    <h2>Contacto</h2>
+    <ul class="contact-list" role="list">
+      <li class="contacto-email">
+        <a class="contact-link" href="mailto:work@jordipatuel.com">
+          <svg class="icon icon-mail" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="4" width="16" height="12" rx="1.5"/><path d="M3 5.5l7 5.5 7-5.5"/></svg>
+          <span>work@jordipatuel.com</span>
+        </a>
+        <button class="copiar-email" type="button" data-copiar="work@jordipatuel.com" aria-label="Copiar email" hidden>
+          <svg class="icon icon-copiar" viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M13 7V4.5A1.5 1.5 0 0011.5 3h-8A1.5 1.5 0 002 4.5v8A1.5 1.5 0 003.5 14H6"/></svg>
+        </button>
+        <span class="copiar-estado" role="status"></span>
+      </li>
+      <li>
+        <a class="contact-link" href="https://github.com/devPatuel" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span>github.com/devPatuel</span>
+        </a>
+      </li>
+      <li>
+        <a class="contact-link" href="https://www.linkedin.com/in/jordi-patuel" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-linkedin" viewBox="0 0 16 16" aria-hidden="true"><rect x="0.5" y="0.5" width="15" height="15" rx="2.5"/><text x="8" y="11.2" text-anchor="middle">in</text></svg>
+          <span>LinkedIn</span>
+        </a>
+      </li>
+      <li>
+        <a class="contact-link" href="../cv.html">
+          <svg class="icon icon-cv" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9M6.5 9L10 12.5 13.5 9"/><path d="M4 15.5h12"/></svg>
+          <span>Ver CV</span>
+        </a>
+      </li>
+    </ul>
+    <p class="copyright">© 2026 Jordi Patuel · Todos los derechos reservados</p>
+  </footer>
+</body>
+</html>

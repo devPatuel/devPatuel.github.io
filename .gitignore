@@ -1,0 +1,6 @@
+.worktrees/
+.superpowers/
+.DS_Store
+
+# Notas y planes de trabajo: se quedan en local, nombran clientes y decisiones internas
+docs/

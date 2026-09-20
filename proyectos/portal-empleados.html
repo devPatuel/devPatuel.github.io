@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portal de empleados — Jordi Patuel</title>
+  <meta name="description" content="Portal interno de gestión para una empresa, diseñado y desplegado de punta a punta en AWS por Jordi Patuel: arquitectura y decisiones técnicas." />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jWJpzolVsjbyG4xpMGS0xwi/YHlQoPdDQBvqZ9jGw8I='; style-src 'self'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';" />
+  <script>
+    (function () {
+      var tema = null;
+      try { tema = localStorage.getItem('tema'); } catch (e) {}
+      if (tema !== 'claro' && tema !== 'oscuro') {
+        tema = 'claro';
+      }
+      document.documentElement.dataset.tema = tema;
+      document.documentElement.classList.add('js');
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script src="../js/tema.js" defer></script>
+  <script src="../js/diagrama-portal.js" defer></script>
+  <script src="../js/copiar-email.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+
+  <!-- Shared arrow markers for every architecture diagram on the page -->
+  <svg class="diagram-defs" aria-hidden="true">
+    <defs>
+      <marker id="arch-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--line)"></path>
+      </marker>
+      <marker id="arch-arrow-on" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"></path>
+      </marker>
+    </defs>
+  </svg>
+
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="wordmark" href="../index.html#inicio">Jordi Patuel</a>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="../index.html#trayectoria">Trayectoria</a>
+        <a href="../index.html#proyectos">Proyectos</a>
+        <a href="../cv.html">CV</a>
+        <a href="#contacto">Contacto</a>
+        <button class="tema-toggle" type="button" aria-pressed="false" aria-label="Cambiar a modo oscuro" hidden>
+          <svg class="icon icon-sol" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.5"/><path d="M10 2v2M10 16v2M18 10h-2M4 10H2M15.5 4.5l-1.4 1.4M5.9 14.1l-1.4 1.4M15.5 15.5l-1.4-1.4M5.9 5.9L4.5 4.5"/></svg>
+          <svg class="icon icon-luna" viewBox="0 0 20 20" aria-hidden="true"><path d="M17.5 10.66A7.5 7.5 0 119.34 2.5a5.83 5.83 0 008.16 8.16z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" class="ficha" tabindex="-1">
+    <section class="ficha-cabecera">
+      <p class="ficha-volver"><a href="../index.html#proyectos">← Volver a proyectos</a></p>
+      <h1>Portal de empleados</h1>
+      <p class="lede">Un portal interno para la gestión diaria de una empresa: autenticación, permisos por rol y los paneles que usa el equipo cada día. Lo diseñé y desplegué de punta a punta yo solo — backend, frontend e infraestructura en AWS. No puedo compartir código ni capturas por un acuerdo de confidencialidad.</p>
+      <dl class="ficha-datos">
+        <div>
+          <dt>Cuándo</dt>
+          <dd>2026 · Encargo profesional</dd>
+        </div>
+        <div>
+          <dt>Rol</dt>
+          <dd>De punta a punta, yo solo: backend, frontend e infraestructura en AWS</dd>
+        </div>
+        <div>
+          <dt>Stack</dt>
+          <dd><ul class="stack-tags" role="list">
+        <li>Java</li>
+        <li>Spring Boot</li>
+        <li>React</li>
+        <li>AWS</li>
+        <li>Terraform</li>
+        <li>Docker</li>
+      </ul></dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Qué es</h2>
+      <ul class="feature-list">
+        <li>Autenticación y control de acceso por rol</li>
+        <li>Paneles internos de gestión para el equipo</li>
+        <li>Automatizaciones internas con n8n</li>
+        <li>Infraestructura como código en AWS, con backups automáticos y alertas de coste</li>
+      </ul>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Arquitectura</h2>
+      <p class="lede">Por dentro, el frontend se sirve desde una CDN, la API y las automatizaciones comparten un servidor y la base de datos vive en una red privada. Toda la infraestructura está definida con Terraform.</p>
+
+      <div class="arch" data-arch>
+        <figure class="diagram" aria-labelledby="arch-caption">
+          <p class="arch-swipe">Desliza el esquema hacia los lados para verlo entero.</p>
+          <div class="arch-scroll">
+            <svg viewBox="0 0 930 668" aria-label="Diagrama de arquitectura del portal de empleados en AWS">
+              <g class="zone zone-aws"><rect x="24" y="104" width="882" height="422" rx="4"/><text x="40" y="126" class="zone-label">AWS</text></g>
+              <g class="zone"><rect x="300" y="124" width="380" height="384" rx="3"/><text x="316" y="142" class="zone-label">VPC</text></g>
+              <g class="zone"><rect x="316" y="148" width="348" height="198" rx="3"/><text x="332" y="166" class="zone-label">Subred pública</text></g>
+              <g class="zone zone-private"><rect x="316" y="362" width="348" height="132" rx="3"/><text x="332" y="380" class="zone-label">Subred privada</text></g>
+              <g class="zone"><rect x="24" y="552" width="436" height="100" rx="4"/><text x="40" y="572" class="zone-label">GitHub</text></g>
+
+              <g class="node node-box" data-id="ec2"><rect x="332" y="176" width="316" height="156" rx="3"/><text x="348" y="196" class="box-label">Servidor EC2</text></g>
+
+              <g class="link" data-a="usuarios" data-b="waf"><path class="link-line" d="M410 43 H120 V148"/><text x="265" y="35" text-anchor="middle" class="link-label">web</text></g>
+              <g class="link" data-a="usuarios" data-b="caddy"><path class="link-line" d="M490 66 V204"/><text x="498" y="92" class="link-label">API</text></g>
+              <g class="link" data-a="usuarios" data-b="s3files"><path class="link-line" d="M570 43 H800 V148"/><text x="685" y="35" text-anchor="middle" class="link-label">URL firmada</text></g>
+              <g class="link" data-a="waf" data-b="cloudfront"><path class="link-line" d="M120 196 V234"/></g>
+              <g class="link" data-a="cloudfront" data-b="s3web"><path class="link-line" d="M120 282 V320"/></g>
+              <g class="link" data-a="caddy" data-b="n8n"><path class="link-line" d="M452 250 L420 274"/></g>
+              <g class="link" data-a="caddy" data-b="api"><path class="link-line" d="M528 250 L560 274"/></g>
+              <g class="link" data-a="n8n" data-b="api"><path class="link-line" d="M468 298 H510"/></g>
+              <g class="link" data-a="api" data-b="rds"><path class="link-line" d="M572 320 V402"/></g>
+              <g class="link" data-a="api" data-b="s3files"><path class="link-line" d="M612 276 V166 H718"/></g>
+              <g class="link" data-a="ssm" data-b="ec2"><path class="link-line" d="M720 249 H650"/></g>
+              <g class="link" data-a="budgets" data-b="ec2"><path class="link-line" d="M720 325 H650"/></g>
+              <g class="link" data-a="secrets" data-b="rds"><path class="link-line" d="M720 427 H644"/></g>
+              <g class="link" data-a="actions" data-b="s3web"><path class="link-line" d="M120 584 V370"/><text x="128" y="476" class="link-label">OIDC</text></g>
+              <g class="link" data-a="actions" data-b="ghcr"><path class="link-line" d="M200 607 H248"/></g>
+              <g class="link" data-a="ghcr" data-b="ec2"><path class="link-line" d="M265 584 V300 H330"/><text x="258" y="476" text-anchor="end" class="link-label">imagen</text></g>
+
+              <g class="node" data-id="usuarios"><rect x="410" y="20" width="160" height="46" rx="2"/><text x="490" y="40" text-anchor="middle" class="node-title">Usuarios</text><text x="490" y="56" text-anchor="middle" class="node-sub">navegador</text></g>
+              <g class="node" data-id="waf"><rect x="40" y="150" width="160" height="46" rx="2"/><text x="120" y="170" text-anchor="middle" class="node-title">WAF</text><text x="120" y="186" text-anchor="middle" class="node-sub">filtro de tráfico</text></g>
+              <g class="node" data-id="cloudfront"><rect x="40" y="236" width="160" height="46" rx="2"/><text x="120" y="256" text-anchor="middle" class="node-title">CloudFront</text><text x="120" y="272" text-anchor="middle" class="node-sub">CDN con HTTPS</text></g>
+              <g class="node" data-id="s3web"><rect x="40" y="322" width="160" height="46" rx="2"/><text x="120" y="342" text-anchor="middle" class="node-title">S3</text><text x="120" y="358" text-anchor="middle" class="node-sub">web estática</text></g>
+              <g class="node" data-id="caddy" data-in="ec2"><rect x="430" y="206" width="120" height="44" rx="2"/><text x="490" y="225" text-anchor="middle" class="node-title">Caddy</text><text x="490" y="240" text-anchor="middle" class="node-sub">proxy HTTPS</text></g>
+              <g class="node" data-id="n8n" data-in="ec2"><rect x="348" y="276" width="120" height="44" rx="2"/><text x="408" y="295" text-anchor="middle" class="node-title">n8n</text><text x="408" y="310" text-anchor="middle" class="node-sub">automatizaciones</text></g>
+              <g class="node" data-id="api" data-in="ec2"><rect x="512" y="276" width="120" height="44" rx="2"/><text x="572" y="295" text-anchor="middle" class="node-title">API</text><text x="572" y="310" text-anchor="middle" class="node-sub">Spring Boot</text></g>
+              <g class="node" data-id="rds"><rect x="502" y="404" width="140" height="46" rx="2"/><text x="572" y="424" text-anchor="middle" class="node-title">PostgreSQL</text><text x="572" y="440" text-anchor="middle" class="node-sub">RDS, cifrada</text></g>
+              <g class="node" data-id="s3files"><rect x="720" y="150" width="160" height="46" rx="2"/><text x="800" y="170" text-anchor="middle" class="node-title">S3</text><text x="800" y="186" text-anchor="middle" class="node-sub">ficheros</text></g>
+              <g class="node" data-id="ssm"><rect x="720" y="226" width="160" height="46" rx="2"/><text x="800" y="246" text-anchor="middle" class="node-title">SSM</text><text x="800" y="262" text-anchor="middle" class="node-sub">sin SSH</text></g>
+              <g class="node" data-id="budgets"><rect x="720" y="302" width="160" height="46" rx="2"/><text x="800" y="322" text-anchor="middle" class="node-title">Budgets</text><text x="800" y="338" text-anchor="middle" class="node-sub">freno de costes</text></g>
+              <g class="node" data-id="secrets"><rect x="720" y="404" width="160" height="46" rx="2"/><text x="800" y="424" text-anchor="middle" class="node-title">Secrets Manager</text><text x="800" y="440" text-anchor="middle" class="node-sub">credenciales</text></g>
+              <g class="node" data-id="actions"><rect x="40" y="584" width="160" height="46" rx="2"/><text x="120" y="604" text-anchor="middle" class="node-title">Actions</text><text x="120" y="620" text-anchor="middle" class="node-sub">tests y despliegue</text></g>
+              <g class="node" data-id="ghcr"><rect x="250" y="584" width="160" height="46" rx="2"/><text x="330" y="604" text-anchor="middle" class="node-title">GHCR</text><text x="330" y="620" text-anchor="middle" class="node-sub">imagen Docker</text></g>
+            </svg>
+          </div>
+          <figcaption id="arch-caption">Esquema simplificado: sin dominios, regiones ni tamaños reales.</figcaption>
+        </figure>
+
+        <div class="arch-panel" aria-live="polite">
+          <p class="arch-hint" hidden>Pulsa una pieza del diagrama para ver qué hace y con qué se conecta.</p>
+          <dl class="decision-list arch-details">
+            <div class="decision" data-id="usuarios">
+              <dt>Usuarios</dt>
+              <dd>El equipo entra al portal desde el navegador. Todo el tráfico viaja cifrado por HTTPS, tanto hacia la web como hacia la API.</dd>
+            </div>
+            <div class="decision" data-id="waf">
+              <dt>WAF</dt>
+              <dd>Cortafuegos de aplicación delante de CloudFront: filtra el tráfico malicioso antes de que llegue a la web.</dd>
+            </div>
+            <div class="decision" data-id="cloudfront">
+              <dt>CloudFront</dt>
+              <dd>Sirve el frontend desde la red de distribución de AWS, con HTTPS y caché. Tras cada despliegue se invalida la caché para que nadie vea una versión antigua.</dd>
+            </div>
+            <div class="decision" data-id="s3web">
+              <dt>S3 (web)</dt>
+              <dd>Guarda el frontend en React ya compilado. El bucket es privado y solo CloudFront puede leerlo, así que no hay forma de saltarse el WAF.</dd>
+            </div>
+            <div class="decision" data-id="ec2">
+              <dt>Servidor EC2</dt>
+              <dd>Un único servidor con Docker Compose que ejecuta Caddy, la API y n8n. Solo abre los puertos web y exige IMDSv2, que impide que un fallo de tipo SSRF robe sus credenciales de AWS.</dd>
+            </div>
+            <div class="decision" data-id="caddy">
+              <dt>Caddy</dt>
+              <dd>Proxy inverso: recibe todo el tráfico HTTPS del servidor y lo reparte entre la API y n8n. Emite y renueva los certificados solo.</dd>
+            </div>
+            <div class="decision" data-id="api">
+              <dt>API</dt>
+              <dd>Spring Boot con Java 21, organizada por capas. Se encarga de la autenticación, los permisos por rol, el cifrado de datos personales y el límite de peticiones.</dd>
+            </div>
+            <div class="decision" data-id="n8n">
+              <dt>n8n</dt>
+              <dd>Automatizaciones del equipo. Procesa datos que llegan de fuera y los envía a la API por webhook; la API comprueba tamaño y formato antes de aceptarlos.</dd>
+            </div>
+            <div class="decision" data-id="rds">
+              <dt>PostgreSQL (RDS)</dt>
+              <dd>Base de datos cifrada, con backups diarios, en una subred privada sin salida a internet. Solo acepta conexiones del servidor de la API, sin reglas por IP. <a href="#decision-sin-nat">Por qué no hay NAT Gateway</a></dd>
+            </div>
+            <div class="decision" data-id="s3files">
+              <dt>S3 (ficheros)</dt>
+              <dd>Avatares, documentos y vídeos. La API firma URLs temporales y el navegador sube y descarga directamente, sin que los ficheros pasen por el servidor.</dd>
+            </div>
+            <div class="decision" data-id="secrets">
+              <dt>Secrets Manager</dt>
+              <dd>Guarda la contraseña de la base de datos, gestionada por AWS, y la clave de cifrado de n8n. Ninguna está en el código ni en la configuración.</dd>
+            </div>
+            <div class="decision" data-id="ssm">
+              <dt>SSM</dt>
+              <dd>Administración y despliegues sin puerto 22: cada sesión pasa por IAM y queda registrada. Para desplegar, ordena al servidor descargar la nueva imagen. <a href="#decision-sin-ssh">Por qué no hay SSH</a></dd>
+            </div>
+            <div class="decision" data-id="budgets">
+              <dt>Budgets + Lambda</dt>
+              <dd>Avisos por email cuando el gasto se acerca al presupuesto. Si se dispara, una Lambda para el servidor sola, sin borrar nada.</dd>
+            </div>
+            <div class="decision" data-id="actions">
+              <dt>GitHub Actions</dt>
+              <dd>Cada cambio pasa los tests. Al integrarlo, construye la imagen de la API y publica el frontend en S3 con credenciales temporales (OIDC), sin claves de AWS guardadas en GitHub.</dd>
+            </div>
+            <div class="decision" data-id="ghcr">
+              <dt>GHCR</dt>
+              <dd>Registro de GitHub donde se publica la imagen Docker de la API. El servidor la descarga en cada despliegue.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="ficha-seccion" id="decisiones">
+      <h2>Decisiones técnicas</h2>
+      <p class="lede">Cada decisión de arquitectura quedó documentada con las alternativas que descarté y por qué.</p>
+      <dl class="decision-list">
+        <div class="decision" id="decision-sin-nat">
+          <dt>Sin NAT Gateway</dt>
+          <dd>La base de datos vive en una subred privada sin salida a internet: no la necesita, y evita un coste recurrente injustificado a esta escala.</dd>
+        </div>
+        <div class="decision" id="decision-sin-ssh">
+          <dt>Sin SSH abierto</dt>
+          <dd>La administración del servidor va por AWS SSM (IAM + registro de auditoría) en vez de un puerto 22 con claves que mantener.</dd>
+        </div>
+      </dl>
+    </section>
+  </main>
+
+  <nav class="ficha-siguiente" aria-label="Siguiente proyecto">
+    <a href="growtogether.html">Siguiente proyecto: GrowTogether →</a>
+  </nav>
+
+  <footer id="contacto" class="site-footer">
+    <h2>Contacto</h2>
+    <ul class="contact-list" role="list">
+      <li class="contacto-email">
+        <a class="contact-link" href="mailto:work@jordipatuel.com">
+          <svg class="icon icon-mail" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="4" width="16" height="12" rx="1.5"/><path d="M3 5.5l7 5.5 7-5.5"/></svg>
+          <span>work@jordipatuel.com</span>
+        </a>
+        <button class="copiar-email" type="button" data-copiar="work@jordipatuel.com" aria-label="Copiar email" hidden>
+          <svg class="icon icon-copiar" viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M13 7V4.5A1.5 1.5 0 0011.5 3h-8A1.5 1.5 0 002 4.5v8A1.5 1.5 0 003.5 14H6"/></svg>
+        </button>
+        <span class="copiar-estado" role="status"></span>
+      </li>
+      <li>
+        <a class="contact-link" href="https://github.com/devPatuel" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span>github.com/devPatuel</span>
+        </a>
+      </li>
+      <li>
+        <a class="contact-link" href="https://www.linkedin.com/in/jordi-patuel" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-linkedin" viewBox="0 0 16 16" aria-hidden="true"><rect x="0.5" y="0.5" width="15" height="15" rx="2.5"/><text x="8" y="11.2" text-anchor="middle">in</text></svg>
+          <span>LinkedIn</span>
+        </a>
+      </li>
+      <li>
+        <a class="contact-link" href="../cv.html">
+          <svg class="icon icon-cv" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9M6.5 9L10 12.5 13.5 9"/><path d="M4 15.5h12"/></svg>
+          <span>Ver CV</span>
+        </a>
+      </li>
+    </ul>
+    <p class="copyright">© 2026 Jordi Patuel · Todos los derechos reservados</p>
+  </footer>
+</body>
+</html>

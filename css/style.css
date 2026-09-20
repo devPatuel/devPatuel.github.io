@@ -1,0 +1,767 @@
+/* Self-hosted so no visitor IP is sent to a font CDN */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("../fonts/bricolage-grotesque-latin-opsz-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Work Sans";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../fonts/work-sans-latin-wght-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("../fonts/ibm-plex-mono-latin-400-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "IBM Plex Mono";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("../fonts/ibm-plex-mono-latin-500-normal.woff2") format("woff2");
+}
+
+:root {
+  color-scheme: light;
+  --bg: #f7f6f3;
+  --bg-2: #edebe5;
+  --text: #14181c;
+  --text-dim: #4f5a57;
+  --accent: #2f6b4a;
+  --accent-deep: #2f5540;
+  --on-accent-deep: #f7f6f3;
+  --line: #6b7682;
+  --warm: #8a5d22;
+  --border: rgba(20, 24, 28, 0.16);
+  --zone-fill: rgba(107, 118, 130, 0.05);
+  --zone-private-fill: rgba(47, 107, 74, 0.06);
+  --zone-private-stroke: rgba(47, 107, 74, 0.35);
+  --box-fill: rgba(237, 235, 229, 0.7);
+  --selected-fill: #dfeae2;
+  /* very subtle white-to-blue wash for card bodies; white predominates */
+  --tarjeta-grad: linear-gradient(180deg, #ffffff 0%, #ffffff 55%, #eef5fc 100%);
+  --font-display: "Bricolage Grotesque", system-ui, sans-serif;
+  --font-body: "Work Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+  --max-w: 1040px;
+  --pad: clamp(1.25rem, 4vw, 3rem);
+}
+
+:root[data-tema="oscuro"] {
+  color-scheme: dark;
+  --bg: #14181c;
+  --bg-2: #1b2127;
+  --text: #ede9e0;
+  --text-dim: #a9b0ad;
+  --accent: #86b79a;
+  --accent-deep: #2f5540;
+  --on-accent-deep: #ede9e0;
+  --line: #8c97a3;
+  --warm: #c99a5b;
+  --border: rgba(140, 151, 163, 0.28);
+  --zone-fill: rgba(140, 151, 163, 0.035);
+  --zone-private-fill: rgba(134, 183, 154, 0.05);
+  --zone-private-stroke: rgba(134, 183, 154, 0.35);
+  --box-fill: rgba(27, 33, 39, 0.7);
+  --selected-fill: #1f3328;
+  /* dark-theme equivalent of the light wash: --bg predominates, a hint of blue at the bottom */
+  --tarjeta-grad: linear-gradient(180deg, var(--bg) 0%, var(--bg) 55%, #182430 100%);
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.12;
+  margin: 0 0 0.6em;
+  color: var(--text);
+}
+
+h1 { font-size: clamp(1.9rem, 4.4vw, 2.6rem); letter-spacing: -0.01em; }
+h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+h3 { font-size: clamp(1.3rem, 2.4vw, 1.6rem); }
+
+p { margin: 0 0 1em; max-width: 62ch; }
+
+a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--text); }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--accent);
+  color: var(--bg);
+  padding: 0.6em 1em;
+  z-index: 100;
+}
+.skip-link:focus { left: var(--pad); }
+
+/* header */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  /* Glassmorphism: translucent + blurred, so scrolled content shows through softly.
+     Falls back to a plain solid header in browsers without backdrop-filter support. */
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .site-header {
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    backdrop-filter: blur(14px) saturate(160%);
+  }
+}
+
+.site-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem var(--pad);
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+/* anchor targets land below the sticky header instead of under it */
+[id] { scroll-margin-top: 5rem; }
+
+/* below this width .main-nav wraps to two lines, so the header grows taller */
+@media (max-width: 480px) {
+  [id] { scroll-margin-top: 6.5rem; }
+}
+
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--text);
+  text-decoration: none;
+}
+
+.main-nav { display: flex; align-items: center; gap: clamp(0.9rem, 2vw, 1.6rem); flex-wrap: wrap; }
+.main-nav a { color: var(--text-dim); text-decoration: none; font-size: 0.95rem; }
+.main-nav a:hover { color: var(--accent); }
+
+.tema-toggle,
+.copiar-email {
+  font: inherit;
+  background: none;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  cursor: pointer;
+}
+.tema-toggle,
+.copiar-email {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4em;
+}
+.tema-toggle .icon,
+.copiar-email .icon { width: 18px; height: 18px; }
+.tema-toggle:hover,
+.copiar-email:hover { color: var(--accent); border-color: var(--accent); }
+.tema-toggle[aria-pressed="true"] { color: var(--accent); }
+
+/* Shows the icon for the theme a click would switch TO: a moon while in light mode
+   (click to go dark), a sun while in dark mode (click to go light). */
+.tema-toggle .icon-sol { display: none; }
+:root[data-tema="oscuro"] .tema-toggle .icon-sol { display: block; }
+:root[data-tema="oscuro"] .tema-toggle .icon-luna { display: none; }
+
+/* sections shared */
+
+section, .site-footer {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: clamp(2.5rem, 6vw, 5rem) var(--pad);
+}
+
+section + section { border-top: 1px solid var(--border); }
+
+.lede { max-width: 58ch; color: var(--text-dim); font-size: 1.08rem; }
+
+.ficha-titulo {
+  display: flex;
+  align-items: center;
+  gap: 0.6em;
+  flex-wrap: wrap;
+}
+.ficha-logo {
+  width: 1.15em;
+  height: 1.15em;
+  flex: none;
+}
+
+/* hero */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: clamp(3rem, 10vw, 7rem);
+}
+
+.hero-frase {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(2.2rem, 6.5vw, 4.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  max-width: 18ch;
+  margin: 0 0 0.6em;
+  color: var(--text);
+}
+/* Decorative quote marks, bigger than the phrase itself. Pseudo-elements so hero.js's
+   replaceChildren() on the typing animation never touches them. */
+.hero-frase::before,
+.hero-frase::after {
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  line-height: 0;
+  vertical-align: -0.32em;
+  color: var(--text-dim);
+}
+.hero-frase::before { content: "\201C"; margin-right: 0.06em; }
+.hero-frase::after { content: "\201D"; margin-left: 0.06em; }
+/* While hero.js is still typing, the hidden remainder of the sentence (.hero-pendiente)
+   still reserves its layout space, which would push this mark into the wrong spot.
+   Hide it until typing finishes; the reduced-motion and no-JS paths never add
+   is-escribiendo, so they show it immediately via the rule above. */
+.js .hero.is-escribiendo:not(.is-listo) .hero-frase::after { content: none; }
+.hero-pendiente { visibility: hidden; }
+.hero.is-escribiendo:not(.is-listo) .hero-escrito::after {
+  content: "";
+  display: inline-block;
+  width: 0.06em;
+  height: 0.9em;
+  margin-left: 0.04em;
+  vertical-align: -0.08em;
+  background: var(--accent);
+  animation: parpadeo 1s steps(1) infinite;
+}
+@keyframes parpadeo { 50% { opacity: 0; } }
+
+.hero-firma {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 1.15rem;
+  color: var(--text-dim);
+  margin: 0 0 0.3em;
+}
+.hero-rol {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  color: var(--accent);
+  margin: 0 0 2rem;
+}
+.hero-foto {
+  width: clamp(140px, 22vw, 200px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+
+.js .hero-revelar { opacity: 0; transition: opacity 0.6s ease; }
+.js .hero.is-listo .hero-revelar { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .hero-revelar { opacity: 1; transition: none; }
+}
+
+.intro-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.4rem; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.65em 1.1em;
+  border: 1px solid var(--border);
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.95rem;
+  border-radius: 3px;
+}
+.btn:hover { border-color: var(--accent); color: var(--accent); }
+.btn-primary { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--on-accent-deep); }
+.btn-primary:hover { background: var(--accent); border-color: var(--accent); color: var(--bg); }
+
+/* diagram */
+
+.diagram-defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.diagram { margin: 1.5rem 0; max-width: 480px; }
+.diagram svg { width: 100%; height: auto; }
+.diagram figcaption {
+  margin-top: 0.9rem;
+  color: var(--text-dim);
+  font-size: 0.88rem;
+  max-width: 42ch;
+}
+
+.diagram .node rect {
+  fill: var(--bg-2);
+  stroke: var(--line);
+  stroke-width: 1.25;
+}
+.diagram .node-accent rect { stroke: var(--accent); }
+.diagram .node-title {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  fill: var(--text);
+}
+.diagram .node-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--text-dim);
+}
+
+/* arquitectura del portal (interactiva) */
+
+.arch { margin-top: 2rem; }
+/* only the full-width portal diagram needs to break out of the base 480px sizing; the compact
+   GrowTogether one (.arch-compact) keeps it, so no override is needed for that case */
+.arch:not(.arch-compact) .diagram { max-width: none; margin: 0; }
+.arch-scroll { overflow-x: auto; }
+/* below this width the labels would shrink past legibility, so it scrolls instead */
+.arch-scroll svg { display: block; min-width: 800px; }
+/* 880px viewport ≈ 800px of content once the side padding is taken out */
+.arch-swipe { display: none; margin: 0 0 0.7rem; color: var(--text-dim); font-size: 0.88rem; }
+@media (max-width: 880px) { .arch-swipe { display: block; } }
+
+.arch .zone rect {
+  fill: none;
+  stroke: var(--border);
+  stroke-dasharray: 5 4;
+}
+.arch .zone-aws rect { fill: var(--zone-fill); stroke-dasharray: none; }
+.arch .zone-private rect { fill: var(--zone-private-fill); stroke: var(--zone-private-stroke); }
+.arch .zone-label,
+.arch .box-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  fill: var(--text-dim);
+}
+.arch .box-label { fill: var(--text); }
+.arch .node-box rect { fill: var(--box-fill); }
+
+.arch .link-line {
+  fill: none;
+  stroke: var(--line);
+  stroke-width: 1.4;
+  marker-end: url(#arch-arrow);
+}
+.arch .link-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  fill: var(--text-dim);
+}
+
+.arch .node,
+.arch .link { transition: opacity 0.2s ease; }
+.arch.is-enhanced .node { cursor: pointer; }
+.arch .node:focus { outline: none; }
+.arch.is-enhanced .node:hover rect { stroke: var(--text-dim); }
+.arch.is-enhanced .node:focus-visible rect { stroke: var(--accent); stroke-width: 2.5; }
+.arch.is-enhanced .node.is-selected rect { stroke: var(--accent); stroke-width: 2; fill: var(--selected-fill); }
+.arch.has-selection .node:not(.is-related) { opacity: 0.3; }
+.arch.has-selection .link:not(.is-related) { opacity: 0.12; }
+.arch .link.is-related .link-line { stroke: var(--accent); marker-end: url(#arch-arrow-on); }
+.arch .link.is-related .link-label { fill: var(--accent); }
+
+.arch-panel { margin-top: 1.6rem; }
+.arch.is-enhanced .arch-panel { min-height: 7.5rem; }
+.arch-hint { color: var(--text-dim); font-size: 0.95rem; }
+.arch-details { margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .arch .node,
+  .arch .link { transition: none; }
+}
+
+/* trayectoria */
+
+.hitos {
+  list-style: none;
+  margin: 2rem 0 0;
+  padding: 0 0 0 1.6rem;
+  border-left: 2px solid var(--border);
+}
+.hito { position: relative; padding-bottom: 2rem; }
+.hito:last-child { padding-bottom: 0; }
+/* dot centred on the 2px line: half the line (1px) plus half the dot (5px) */
+.hito::before {
+  content: "";
+  position: absolute;
+  left: calc(-1.6rem - 6px);
+  top: 0.45em;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 2px solid var(--accent);
+}
+.hito-fecha { font-family: var(--font-mono); font-size: 0.85rem; color: var(--warm); margin: 0 0 0.2em; }
+.hito h3 { font-size: 1.15rem; margin: 0 0 0.35em; }
+.hito-texto { color: var(--text-dim); margin: 0; max-width: 58ch; }
+
+.js .hito { opacity: 0; transform: translateY(12px); transition: opacity 0.5s ease, transform 0.5s ease; }
+.js .hito.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .hito { opacity: 1; transform: none; transition: none; }
+}
+
+/* tecnologías */
+
+.tech-badges { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1;
+  padding: 0.45em 0.7em;
+  border-radius: 3px;
+  /* keeps dark badges (JWT, AWS) visible on the dark theme background */
+  border: 1px solid var(--border);
+  background: var(--badge-bg);
+  color: var(--badge-text, #ffffff);
+}
+.badge-java { --badge-bg: #007396; }
+.badge-spring { --badge-bg: #6db33f; --badge-text: #14181c; }
+.badge-postgres { --badge-bg: #4169e1; }
+.badge-jwt { --badge-bg: #000000; }
+.badge-flutter { --badge-bg: #02569b; }
+.badge-dart { --badge-bg: #0175c2; }
+.badge-docker { --badge-bg: #2496ed; --badge-text: #14181c; }
+.badge-terraform { --badge-bg: #7b42bc; }
+.badge-csharp { --badge-bg: #239120; }
+.badge-dotnet { --badge-bg: #512bd4; }
+.badge-sqlserver { --badge-bg: #cc2927; }
+.badge-react { --badge-bg: #61dafb; --badge-text: #14181c; }
+.badge-aws { --badge-bg: #232f3e; }
+.badge-provider { --badge-bg: #5c6bc0; }
+
+.stack-categoria { margin-top: 1.6rem; }
+.stack-categoria:first-of-type { margin-top: 0; }
+.stack-categoria h3 {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  font-weight: 500;
+  margin: 0 0 0.7rem;
+}
+.stack-cards { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.stack-card {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.5em 0.8em;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-2);
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--text);
+}
+.stack-logo { width: 18px; height: 18px; flex: none; fill: var(--badge-bg); }
+/* JWT's mark is plain black, which would vanish on a dark card; follow the theme text color instead */
+.stack-logo.badge-jwt { fill: var(--text); }
+/* AWS has no logo here (trademark request), so it keeps the solid colour chip instead of a bordered card */
+.stack-card-solido {
+  background: var(--badge-bg);
+  color: var(--badge-text, #ffffff);
+  border-color: transparent;
+  font-weight: 500;
+}
+
+/* proyecto */
+
+.stack-tags {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0;
+  margin: 0 0 1.6rem;
+}
+.stack-tags li {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  padding: 0.3em 0.65em;
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+.feature-list {
+  padding-left: 1.1em;
+  max-width: 58ch;
+  color: var(--text-dim);
+}
+.feature-list li { margin-bottom: 0.5em; }
+.feature-list li::marker { color: var(--accent); }
+
+.shots {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem 1rem;
+  margin: 2rem 0;
+}
+@media (max-width: 480px) { .shots { grid-template-columns: 1fr; } }
+
+.shot { margin: 0; }
+.shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-2);
+}
+.shot figcaption {
+  margin-top: 0.6em;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--text-dim);
+}
+/* The admin panel capture is landscape, so it gets its own full-width row */
+.shot-ancha { margin: 2rem 0; }
+.shot-ancha figcaption { max-width: 58ch; }
+
+.repo-list { list-style: none; padding: 0; margin: 2rem 0 0; }
+.repo-list li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  padding: 0.85em 0;
+  border-top: 1px solid var(--border);
+  align-items: baseline;
+}
+.repo-list a { font-family: var(--font-mono); font-size: 0.95rem; white-space: nowrap; }
+.repo-list span { color: var(--text-dim); font-size: 0.92rem; }
+
+/* decisiones */
+
+.decision-list { margin: 1.4rem 0 0; }
+.decision {
+  border-left: 2px solid var(--accent-deep);
+  padding: 0 0 0 1.2rem;
+  margin-bottom: 1.8rem;
+}
+.decision dt {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.08rem;
+  margin-bottom: 0.35em;
+}
+.decision dd { margin: 0; color: var(--text-dim); max-width: 58ch; }
+.decision code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  color: var(--warm);
+}
+
+/* tarjetas */
+
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+.tarjeta-enlace {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  color: inherit;
+  text-decoration: none;
+  background: var(--bg);
+}
+.tarjeta-enlace:hover,
+.tarjeta-enlace:focus-visible { border-color: var(--accent); color: inherit; }
+.tarjeta-cuerpo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.3rem 1.4rem 1.5rem;
+  border-top: 1px solid var(--border);
+  background: var(--tarjeta-grad);
+}
+.tarjeta-cuerpo h3 { margin: 0 0 0.2em; }
+.tarjeta-sub { color: var(--warm); font-size: 0.9rem; margin: 0 0 0.6em; }
+.tarjeta-resumen { color: var(--text-dim); margin: 0 0 1em; }
+.tarjeta-stack { margin: 0 0 1.1em; }
+
+.tarjeta-media.diagram.arch {
+  margin: 0;
+  max-width: none;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  /* --bg, not --bg-2: matches the ficha's own page background, so node rects
+     (filled with --bg-2) keep the same contrast they have there */
+  background: var(--bg);
+}
+.tarjeta-media svg { width: 100%; height: 100%; transition: transform 0.4s ease; }
+.tarjeta-enlace:hover .tarjeta-media svg,
+.tarjeta-enlace:focus-visible .tarjeta-media svg { transform: scale(1.06); }
+
+.tarjeta-cta {
+  margin-top: auto;
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  padding: 0.5em 0.9em;
+  border-radius: 3px;
+  background: var(--accent-deep);
+  color: var(--on-accent-deep);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.tarjeta-enlace:hover .tarjeta-cta,
+.tarjeta-enlace:focus-visible .tarjeta-cta { opacity: 1; transform: none; }
+
+/* touch screens have no hover, so the call to action is always shown */
+@media (hover: none) {
+  .tarjeta-cta { opacity: 1; transform: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tarjeta-media svg,
+  .tarjeta-cta { transition: none; transform: none; }
+  .tarjeta-enlace:hover .tarjeta-media svg,
+  .tarjeta-enlace:focus-visible .tarjeta-media svg { transform: none; }
+}
+
+/* ficha */
+
+.nota {
+  border-left: 2px solid var(--border);
+  padding-left: 1rem;
+  margin: 1.5rem 0 0;
+  font-size: 0.95rem;
+  color: var(--text-dim);
+}
+
+.ficha-volver { margin: 0 0 1.5rem; font-size: 0.95rem; }
+.ficha-volver a { text-decoration: none; }
+.ficha-seccion h2 { margin-bottom: 1rem; }
+.ficha-datos { display: grid; gap: 0.9rem; margin: 2rem 0 0; }
+.ficha-datos > div {
+  display: grid;
+  grid-template-columns: 7rem 1fr;
+  gap: 1rem;
+  padding-top: 0.9rem;
+  border-top: 1px solid var(--border);
+}
+@media (max-width: 560px) {
+  .ficha-datos > div { grid-template-columns: 1fr; gap: 0.3rem; }
+}
+.ficha-datos dt { font-family: var(--font-mono); font-size: 0.85rem; color: var(--warm); padding-top: 0.15em; }
+.ficha-datos dd { margin: 0; }
+.ficha-datos .stack-tags,
+.ficha-datos .repo-list { margin: 0; }
+.ficha-datos .repo-list li:first-child { border-top: none; padding-top: 0; }
+
+.ficha-siguiente {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 0 var(--pad) clamp(2.5rem, 6vw, 5rem);
+}
+.ficha-siguiente a { font-family: var(--font-display); font-size: 1.2rem; text-decoration: none; }
+
+/* cv */
+
+.cv-embed {
+  display: block;
+  width: 100%;
+  height: 80vh;
+  min-height: 500px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-2);
+}
+.cv-embed p { padding: 2rem; color: var(--text-dim); }
+
+/* footer */
+
+.site-footer { border-top: 1px solid var(--border); }
+.contact-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 0.9rem 1.8rem; }
+.contact-list a { font-size: 1rem; }
+
+.contact-link { display: inline-flex; align-items: center; gap: 0.6em; }
+.copyright {
+  margin: 2rem 0 0;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+.contact-link .icon { width: 20px; height: 20px; flex: none; }
+
+.icon-mail, .icon-cv, .icon-copiar, .icon-sol, .icon-luna {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.icon-github { fill: currentColor; }
+.icon-linkedin rect { fill: none; stroke: currentColor; stroke-width: 1.2; }
+.icon-linkedin text { font-family: var(--font-mono); font-size: 8px; fill: currentColor; }
+
+.contacto-email { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; }
+.copiar-estado { font-size: 0.85rem; color: var(--accent); }
