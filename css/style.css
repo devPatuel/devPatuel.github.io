@@ -656,6 +656,15 @@ section + section { border-top: 1px solid var(--border); }
      (filled with --bg-2) keep the same contrast they have there */
   background: var(--bg);
 }
+.tarjeta-foto {
+  margin: 0;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+.tarjeta-foto img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.tarjeta-enlace:hover .tarjeta-foto img,
+.tarjeta-enlace:focus-visible .tarjeta-foto img { transform: scale(1.06); }
+
 .tarjeta-media svg { width: 100%; height: 100%; transition: transform 0.4s ease; }
 .tarjeta-enlace:hover .tarjeta-media svg,
 .tarjeta-enlace:focus-visible .tarjeta-media svg { transform: scale(1.06); }
