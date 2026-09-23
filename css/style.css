@@ -523,6 +523,32 @@ section + section { border-top: 1px solid var(--border); }
   font-weight: 500;
 }
 
+/* certificaciones */
+
+.certificados {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr));
+  gap: 1rem;
+}
+.certificado {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-2);
+}
+.certificado-insignia { width: 96px; height: 96px; flex: none; }
+.certificado-cuerpo { min-width: 0; }
+.certificado-fecha { font-family: var(--font-mono); font-size: 0.85rem; color: var(--warm); margin: 0 0 0.2em; }
+.certificado h3 { font-size: 1.1rem; margin: 0 0 0.2em; }
+.certificado-emisor { color: var(--text-dim); margin: 0 0 0.5em; }
+.certificado-enlace { font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent); }
+
 /* proyecto */
 
 .stack-tags {
