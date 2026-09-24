@@ -23,6 +23,9 @@
   const pendiente = document.createElement('span');
   pendiente.className = 'hero-pendiente';
   pendiente.setAttribute('aria-hidden', 'true');
+  // Reserve the full sentence's space before the first typing step, or the hero collapses
+  // to one line during the start delay and then pushes the page down (layout shift)
+  pendiente.textContent = texto;
   frase.replaceChildren(accesible, escrito, pendiente);
 
   let i = 0;
