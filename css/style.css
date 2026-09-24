@@ -149,7 +149,8 @@ a:hover { color: var(--text); }
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  padding: 1rem var(--pad);
+  /* the nav links' 44px height already gives vertical breathing room */
+  padding: 0.5rem var(--pad);
   max-width: var(--max-w);
   margin: 0 auto;
 }
@@ -159,7 +160,7 @@ a:hover { color: var(--text); }
 
 /* below this width .main-nav wraps to two lines, so the header grows taller */
 @media (max-width: 480px) {
-  [id] { scroll-margin-top: 6.5rem; }
+  [id] { scroll-margin-top: 7rem; }
 }
 
 .wordmark {
@@ -171,7 +172,18 @@ a:hover { color: var(--text); }
 }
 
 .main-nav { display: flex; align-items: center; gap: clamp(0.9rem, 2vw, 1.6rem); flex-wrap: wrap; }
-.main-nav a { color: var(--text-dim); text-decoration: none; font-size: 0.95rem; }
+/* 44px-tall tap targets (Apple/WCAG AAA recommendation) without making the header taller:
+   the extra height is padding, and row-gap is dropped so the wrapped mobile nav stays compact */
+.main-nav { row-gap: 0; }
+.main-nav a {
+  color: var(--text-dim);
+  text-decoration: none;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 0.2rem;
+}
 .main-nav a:hover { color: var(--accent); }
 
 .tema-toggle,
