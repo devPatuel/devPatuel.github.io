@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tría — Jordi Patuel</title>
+  <meta name="description" content="Tría, app de escritorio en Flutter para clasificar miles de archivos con el teclado y deshacer cualquier decisión: proyecto personal de Jordi Patuel, con su arquitectura y decisiones técnicas." />
+  <link rel="icon" href="../favicon.ico" sizes="48x48" />
+  <link rel="icon" href="../img/icon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <!-- Link previews (LinkedIn, WhatsApp, email): crawlers need absolute URLs -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:site_name" content="Jordi Patuel" />
+  <meta property="og:title" content="Tría — Jordi Patuel" />
+  <meta property="og:description" content="Tría, app de escritorio en Flutter para clasificar miles de archivos con el teclado y deshacer cualquier decisión: proyecto personal de Jordi Patuel, con su arquitectura y decisiones técnicas." />
+  <meta property="og:url" content="https://jordipatuel.com/proyectos/tria.html" />
+  <meta property="og:image" content="https://jordipatuel.com/img/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Jordi Patuel, desarrollador Java, Flutter y AWS" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jWJpzolVsjbyG4xpMGS0xwi/YHlQoPdDQBvqZ9jGw8I='; style-src 'self'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';" />
+  <script>
+    (function () {
+      var tema = null;
+      try { tema = localStorage.getItem('tema'); } catch (e) {}
+      if (tema !== 'claro' && tema !== 'oscuro') {
+        tema = 'claro';
+      }
+      document.documentElement.dataset.tema = tema;
+      document.documentElement.classList.add('js');
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script src="../js/tema.js" defer></script>
+  <script src="../js/diagrama-portal.js" defer></script>
+  <script src="../js/copiar-email.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+
+  <!-- Shared arrow markers for every architecture diagram on the page -->
+  <svg class="diagram-defs" aria-hidden="true">
+    <defs>
+      <marker id="arch-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--line)"></path>
+      </marker>
+      <marker id="arch-arrow-on" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"></path>
+      </marker>
+    </defs>
+  </svg>
+
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="wordmark" href="../index.html#inicio">Jordi Patuel</a>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="../index.html#trayectoria">Trayectoria</a>
+        <a href="../index.html#proyectos">Proyectos</a>
+        <a href="../cv.html">CV</a>
+        <a href="#contacto">Contacto</a>
+        <button class="tema-toggle" type="button" aria-pressed="false" aria-label="Cambiar a modo oscuro" hidden>
+          <svg class="icon icon-sol" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.5"/><path d="M10 2v2M10 16v2M18 10h-2M4 10H2M15.5 4.5l-1.4 1.4M5.9 14.1l-1.4 1.4M15.5 15.5l-1.4-1.4M5.9 5.9L4.5 4.5"/></svg>
+          <svg class="icon icon-luna" viewBox="0 0 20 20" aria-hidden="true"><path d="M17.5 10.66A7.5 7.5 0 119.34 2.5a5.83 5.83 0 008.16 8.16z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" class="ficha" tabindex="-1">
+    <section class="ficha-cabecera">
+      <p class="ficha-volver"><a href="../index.html#proyectos">← Volver a proyectos</a></p>
+      <h1 class="ficha-titulo"><img class="ficha-logo" src="../img/tria/logo.png" alt="" width="128" height="128" />Tría</h1>
+      <p class="lede">Una app de escritorio para clasificar miles de archivos en carpetas con una sola pulsación de tecla por archivo, y poder deshacer cualquier decisión, incluso días después.</p>
+      <dl class="ficha-datos">
+        <div>
+          <dt>Cuándo</dt>
+          <dd>2026 · Proyecto personal</dd>
+        </div>
+        <div>
+          <dt>Rol</dt>
+          <dd>Todo el proyecto, en solitario</dd>
+        </div>
+        <div>
+          <dt>Stack</dt>
+          <dd><ul class="stack-tags" role="list">
+        <li>Flutter desktop</li>
+        <li>Dart 3</li>
+        <li>Provider</li>
+        <li>GitHub Actions</li>
+        <li>macOS · Windows</li>
+      </ul></dd>
+        </div>
+        <div>
+          <dt>Enlaces</dt>
+          <dd><ul class="repo-list" role="list">
+        <li>
+          <a href="https://github.com/devPatuel/tria" target="_blank" rel="noopener noreferrer">tria</a>
+          <span>Código, documentación y registro de decisiones</span>
+        </li>
+        <li>
+          <a href="https://github.com/devPatuel/tria/releases/latest" target="_blank" rel="noopener noreferrer">Descargar la última versión</a>
+          <span>Instaladores para macOS y Windows, sin firmar</span>
+        </li>
+      </ul></dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>De dónde viene</h2>
+      <p>De un cambio de ordenador con miles de archivos sin orden, y de querer bajar las fotos de Drive a un SSD ya ordenadas y sin memes ni capturas. Abrir cada archivo, mirarlo y arrastrarlo a una carpeta no escala a varios miles. De ahí salen las dos exigencias de la app: <strong>ver el archivo y decidir sin soltar el teclado</strong>, y <strong>poder deshacerlo todo</strong>.</p>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Qué es</h2>
+      <ul class="feature-list">
+        <li>Hasta nueve carpetas de destino en las teclas <code>1</code>–<code>9</code>; las flechas sirven para descartar, posponer, deshacer y saltar</li>
+        <li>Vista previa de imágenes, PDF y texto, con las tres siguientes precargadas</li>
+        <li>Deshacer ilimitado, reanudar tras un cierre inesperado y revertir una sesión entera</li>
+        <li>Papelera blanda: nada se borra hasta que tú lo decides</li>
+        <li>Sin red y sin telemetría; 138 tests que el CI pasa en macOS y Windows</li>
+      </ul>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Arquitectura</h2>
+      <p class="lede">El núcleo que toca tus archivos es Dart puro, sin ninguna dependencia de Flutter, así que se prueba entero sin arrancar la interfaz.</p>
+
+      <div class="arch arch-compact" data-arch>
+        <figure class="diagram" aria-labelledby="diagram-caption">
+          <svg viewBox="0 0 600 340" aria-label="Diagrama de arquitectura: la interfaz habla con el controlador de sesión, que anota cada decisión en el diario y encola el movimiento; la interfaz lee las vistas previas de una caché">
+            <g class="link" data-a="ui" data-b="session"><line class="link-line" x1="300" y1="90" x2="300" y2="140"/></g>
+            <g class="link" data-a="session" data-b="diario"><line class="link-line" x1="260" y1="200" x2="140" y2="255"/></g>
+            <g class="link" data-a="session" data-b="cola"><line class="link-line" x1="300" y1="200" x2="300" y2="255"/></g>
+            <g class="link" data-a="cola" data-b="diario"><line class="link-line" x1="220" y1="285" x2="200" y2="285"/></g>
+            <g class="link" data-a="ui" data-b="cache"><line class="link-line" x1="380" y1="70" x2="470" y2="255"/></g>
+
+            <g class="node" data-id="ui">
+              <rect x="220" y="30" width="160" height="60" rx="2"/>
+              <text x="300" y="55" text-anchor="middle" class="node-title">Interfaz</text>
+              <text x="300" y="74" text-anchor="middle" class="node-sub">Flutter · 3 pantallas</text>
+            </g>
+
+            <g class="node" data-id="session">
+              <rect x="220" y="140" width="160" height="60" rx="2"/>
+              <text x="300" y="165" text-anchor="middle" class="node-title">Sesión</text>
+              <text x="300" y="184" text-anchor="middle" class="node-sub">SessionController</text>
+            </g>
+
+            <g class="node node-accent" data-id="diario">
+              <rect x="40" y="255" width="160" height="60" rx="2"/>
+              <text x="120" y="280" text-anchor="middle" class="node-title">Diario</text>
+              <text x="120" y="299" text-anchor="middle" class="node-sub">JSONL append-only</text>
+            </g>
+
+            <g class="node" data-id="cola">
+              <rect x="220" y="255" width="160" height="60" rx="2"/>
+              <text x="300" y="280" text-anchor="middle" class="node-title">Cola</text>
+              <text x="300" y="299" text-anchor="middle" class="node-sub">movimientos en disco</text>
+            </g>
+
+            <g class="node" data-id="cache">
+              <rect x="400" y="255" width="160" height="60" rx="2"/>
+              <text x="480" y="280" text-anchor="middle" class="node-title">Vistas previas</text>
+              <text x="480" y="299" text-anchor="middle" class="node-sub">caché LRU</text>
+            </g>
+          </svg>
+          <figcaption id="diagram-caption">Cada pulsación se anota en el diario antes de tocar el disco; la interfaz nunca espera a la cola.</figcaption>
+        </figure>
+
+        <div class="arch-panel" aria-live="polite">
+          <p class="arch-hint" hidden>Pulsa una pieza del diagrama para ver qué hace y con qué se conecta.</p>
+          <dl class="decision-list arch-details">
+            <div class="decision" data-id="ui">
+              <dt>Interfaz</dt>
+              <dd>Tres pantallas en Flutter: configuración, triaje y resumen. No lee nada del disco mientras se dibuja, y ninguna animación bloquea una decisión: una pulsación nueva corta la transición en curso.</dd>
+            </div>
+            <div class="decision" data-id="session">
+              <dt>Sesión</dt>
+              <dd>El <code>SessionController</code> recibe cada decisión, la anota en el diario, avanza al siguiente archivo y encola el movimiento. También escucha los fallos de la cola, para que ninguno pase en silencio.</dd>
+            </div>
+            <div class="decision" data-id="diario">
+              <dt>Diario</dt>
+              <dd>La fuente de verdad: cada operación se escribe primero como intención (<code>pending</code>) y después como resultado (<code>done</code> o <code>failed</code>). De ahí salen deshacer, reanudar y revertir.</dd>
+            </div>
+            <div class="decision" data-id="cola">
+              <dt>Cola</dt>
+              <dd>Ejecuta los movimientos en segundo plano y de uno en uno. Nunca sobrescribe: si el nombre ya existe, añade un sufijo y el diario guarda el nombre real.</dd>
+            </div>
+            <div class="decision" data-id="cache">
+              <dt>Vistas previas</dt>
+              <dd>Caché en memoria de ocho entradas que precarga los tres archivos siguientes, para que decidir rápido no deje esperas entre pulsación y pulsación.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Capturas</h2>
+      <figure class="shot shot-ancha">
+        <img src="../img/tria/triage.jpg" alt="Pantalla de triaje: vista previa de una foto, lista de destinos numerados del 1 al 4 con su recuento, barra de progreso y atajos de teclado abajo." width="1400" height="1152" loading="lazy" decoding="async" />
+        <figcaption>El triaje: la foto, los destinos en las teclas numéricas y el ritmo de decisiones por segundo.</figcaption>
+      </figure>
+      <figure class="shot shot-ancha">
+        <img src="../img/tria/setup.jpg" alt="Pantalla de configuración: carpeta de origen y carpetas de destino asignadas a teclas." width="1400" height="1114" loading="lazy" decoding="async" />
+        <figcaption>La configuración se guarda como perfil para reutilizarla.</figcaption>
+      </figure>
+      <figure class="shot shot-ancha">
+        <img src="../img/tria/summary.jpg" alt="Pantalla de resumen: cuántos archivos fueron a cada destino, con botones para abrir cada carpeta." width="1400" height="1136" loading="lazy" decoding="async" />
+        <figcaption>El resumen de la sesión, con lo que fue a cada destino.</figcaption>
+      </figure>
+      <figure class="shot shot-ancha">
+        <img src="../img/tria/trash.jpg" alt="Diálogo de confirmación antes de vaciar la papelera, indicando cuántos archivos se van a borrar." width="1400" height="1130" loading="lazy" decoding="async" />
+        <figcaption>Vaciar la papelera es lo único que no se puede deshacer, y por eso es lo único que pide confirmación.</figcaption>
+      </figure>
+    </section>
+
+    <section class="ficha-seccion ficha-cierre">
+      <h2>Más detalles del proyecto</h2>
+      <p>El repositorio tiene la arquitectura, el registro de decisiones, la estrategia de pruebas, qué toca Tría en tu disco y el runbook de publicación.</p>
+      <div class="intro-actions">
+        <a class="btn btn-primary" href="https://github.com/devPatuel/tria" target="_blank" rel="noopener noreferrer">Ver el código en GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <nav class="ficha-siguiente" aria-label="Siguiente proyecto">
+    <a href="growtogether.html">Siguiente proyecto: GrowTogether →</a>
+  </nav>
+
+  <footer id="contacto" class="site-footer">
+    <h2>Contacto</h2>
+    <ul class="contact-list" role="list">
+      <li class="contacto-email">
+        <a class="contact-link" href="mailto:work@jordipatuel.com">
+          <svg class="icon icon-mail" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="4" width="16" height="12" rx="1.5"/><path d="M3 5.5l7 5.5 7-5.5"/></svg>
+          <span>work@jordipatuel.com</span>
+        </a>
+        <button class="copiar-email" type="button" data-copiar="work@jordipatuel.com" aria-label="Copiar email" hidden>
+          <svg class="icon icon-copiar" viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M13 7V4.5A1.5 1.5 0 0011.5 3h-8A1.5 1.5 0 002 4.5v8A1.5 1.5 0 003.5 14H6"/></svg>
+        </button>
+        <span class="copiar-estado" role="status"></span>
+      </li>
+      <li>
+        <a class="contact-link" href="https://github.com/devPatuel" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span>github.com/devPatuel</span>
+        </a>
+      </li>
+      <li>
+        <a class="contact-link" href="https://www.linkedin.com/in/jordi-patuel" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-linkedin" viewBox="0 0 16 16" aria-hidden="true"><rect x="0.5" y="0.5" width="15" height="15" rx="2.5"/><text x="8" y="11.2" text-anchor="middle">in</text></svg>
+          <span>LinkedIn</span>
+        </a>
+      </li>
+      <li>
+        <a class="contact-link" href="../cv.html">
+          <svg class="icon icon-cv" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9M6.5 9L10 12.5 13.5 9"/><path d="M4 15.5h12"/></svg>
+          <span>Ver CV</span>
+        </a>
+      </li>
+    </ul>
+    <p class="copyright">© 2026 Jordi Patuel · Todos los derechos reservados</p>
+  </footer>
+</body>
+</html>
