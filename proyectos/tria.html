@@ -125,6 +125,39 @@
     </section>
 
     <section class="ficha-seccion">
+      <h2>Cómo funciona, en vídeo</h2>
+      <p class="lede">Patu abre la aplicación por dentro y enseña qué pasa cada vez que pulsas una tecla.</p>
+      <figure class="shot shot-ancha">
+        <video class="video-ficha" controls preload="none" poster="../img/tria/video-portada.jpg" width="1920" height="1080">
+          <source src="../video/tria-por-dentro.mp4" type="video/mp4" />
+          <p>Tu navegador no puede reproducir el vídeo. <a href="../video/tria-por-dentro.mp4">Descárgalo aquí</a>.</p>
+        </video>
+        <figcaption>Los nombres de archivo y los recuentos son de ejemplo.</figcaption>
+      </figure>
+      <details class="transcripcion">
+        <summary>Transcripción del vídeo</summary>
+        <h3>Tría por dentro</h3>
+        <p>Miles de archivos, y hay que decidir uno a uno. Tría lo hace con una sola tecla. Soy Patu, y te enseño cómo funciona por dentro.</p>
+        <h3>Una tecla por archivo</h3>
+        <p>Eliges una carpeta. Asocias hasta nueve destinos, y cada archivo se va con una pulsación. Flecha arriba: a la papelera blanda. Flecha abajo: lo pospone para el final. Derecha: lo deja donde está. E izquierda deshace la última decisión.</p>
+        <h3>Cuatro capas</h3>
+        <p>Por dentro son cuatro capas, y cada una solo depende de las que tiene debajo. El núcleo, el que toca tus archivos, es Dart puro: sin Flutter. Así se prueba entero sin arrancar la interfaz, y el CI lo pasa en macOS y en Windows.</p>
+        <h3>La interfaz nunca espera al disco</h3>
+        <p>Cada pulsación llama a decide: la pantalla avanza y el trabajo va a una cola. La cola mueve los archivos de uno en uno, en segundo plano. Un disco lento no frena tus decisiones. Y las siguientes imágenes ya se están leyendo a memoria, para que aparezcan sin espera.</p>
+        <h3>El diario</h3>
+        <p>El centro es un diario. Pulsas dos, y va a la cola. Antes de tocar el disco se apunta: pending. Luego se mueve el archivo. ¿Ya existe? Nunca se sobrescribe: se añade un sufijo. Y se apunta el resultado, con la ruta real. Pulsas izquierda para deshacer. No hay estado oculto: se lee el diario. La ruta dice qué traer de vuelta. Intención, operación, resultado: un write-ahead log para tus archivos.</p>
+        <h3>Mover a otro disco</h3>
+        <p>En el mismo disco, mover es un rename. Hacia otro disco, rename falla. Entonces Tría copia, comprueba que la copia pesa lo mismo, y solo entonces borra el original. Si falla, se descarta la copia. El original sigue ahí.</p>
+        <h3>Borrar es apartar</h3>
+        <p>Flecha arriba no borra: mueve el archivo a una papelera dentro de la propia carpeta. Vaciarla es la única acción irreversible de toda la aplicación, y la única que pide confirmación.</p>
+        <h3>Revertir una sesión entera</h3>
+        <p>Como cada movimiento quedó apuntado, se puede revertir una sesión entera, incluso días después. Se recorre del final al principio, para no recrear una colisión ya resuelta.</p>
+        <h3>En resumen</h3>
+        <p>Y nada sale de tu máquina: Tría no usa la red ni envía telemetría. El código es público, en GitHub. Soy Patu. Hasta la próxima.</p>
+      </details>
+    </section>
+
+    <section class="ficha-seccion">
       <h2>Arquitectura</h2>
       <p class="lede">El núcleo que toca tus archivos es Dart puro, sin ninguna dependencia de Flutter, así que se prueba entero sin arrancar la interfaz.</p>
 

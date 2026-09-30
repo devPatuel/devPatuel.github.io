@@ -614,6 +614,28 @@ section + section { border-top: 1px solid var(--border); }
 .shot-ancha { margin: 2rem 0; }
 .shot-ancha figcaption { max-width: 58ch; }
 
+.video-ficha {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg-2);
+}
+.transcripcion {
+  margin: 1.5rem 0 0;
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+}
+.transcripcion summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--text-dim);
+}
+.transcripcion summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.transcripcion h3 { margin: 1.4rem 0 0.3rem; font-size: 1rem; }
+.transcripcion p { margin: 0; max-width: 62ch; color: var(--text-dim); }
+
 .repo-list { list-style: none; padding: 0; margin: 2rem 0 0; }
 .repo-list li {
   display: flex;
