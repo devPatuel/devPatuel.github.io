@@ -62,6 +62,14 @@ function comprobarReferenciaLocal(origen, valor) {
   }
 }
 
+// The chat talks to a backend and loads Turnstile. Those addresses are allowed in exactly one
+// file and exactly these values; any other external address in any script still fails.
+const ARCHIVO_CONFIG_CHAT = join('js', 'chat-config.js');
+const DIRECCIONES_CHAT = new Set([
+  'http://localhost:8787',
+  'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit',
+]);
+
 function comprobarScript(fichero, texto) {
   if (/document\.cookie|sessionStorage|indexedDB/.test(texto)) {
     fallo(fichero, 'usa cookies, sessionStorage o indexedDB');
@@ -75,7 +83,8 @@ function comprobarScript(fichero, texto) {
   // https:// links in href attributes (allowed by the constraints).
   if (fichero.endsWith('.js')) {
     for (const m of texto.matchAll(/(['"`])((?:https?:)?\/\/[^'"`]*)\1/gi)) {
-      fallo(fichero, `carga externa en script: ${m[2]}`);
+      const permitida = fichero.endsWith(ARCHIVO_CONFIG_CHAT) && DIRECCIONES_CHAT.has(m[2]);
+      if (!permitida) fallo(fichero, `carga externa en script: ${m[2]}`);
     }
   }
 }

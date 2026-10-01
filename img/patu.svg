@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="-92 -372 184 184" role="img" aria-label="Patu, el robot del portfolio">
+  <path d="M0 -322 V-346" stroke="#2f6b4a" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <circle cx="0" cy="-354" r="10" fill="#e39a2d" stroke="#14181c" stroke-width="3.5"/>
+  <rect x="-86" y="-276" width="14" height="30" rx="5" fill="#24523a"/>
+  <rect x="72" y="-276" width="14" height="30" rx="5" fill="#24523a"/>
+  <rect x="-76" y="-324" width="152" height="130" rx="28" fill="#2f6b4a"/>
+  <rect x="-60" y="-308" width="120" height="98" rx="14" fill="#14181c"/>
+  <path d="M-50 -296 L-42 -290 L-50 -284" fill="none" stroke="#e39a2d" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M44 -302 Q54 -300 54 -290" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.35"/>
+  <rect x="-32" y="-280" width="15" height="24" rx="5" fill="#86d9a3"/>
+  <rect x="17" y="-280" width="15" height="24" rx="5" fill="#86d9a3"/>
+  <path d="M-14 -240 Q0 -226 14 -240" fill="none" stroke="#86d9a3" stroke-width="7" stroke-linecap="round"/>
+</svg>
