@@ -10,7 +10,7 @@ const NOTICE =
   'Asistente de IA: puede equivocarse. Las conversaciones se guardan 30 días para revisar la seguridad; no escribas datos personales. ';
 const MESSAGES = {
   error: 'Algo ha fallado. Inténtalo de nuevo en un momento.',
-  captcha: 'No he podido comprobar que eres una persona. Recarga la página e inténtalo de nuevo.',
+  captcha: 'No he podido comprobar que eres una persona. Inténtalo de nuevo en un momento.',
   limit_visitor: 'Has llegado al límite de mensajes de hoy. Vuelve mañana o escribe a ',
   limit_global: 'El asistente ha llegado a su límite de hoy. Vuelve mañana o escribe a ',
 };
@@ -73,14 +73,19 @@ function createCaptcha(container) {
     // A stale timer must never reject a newer wait.
     clearTimeout(timer);
     timer = setTimeout(() => settle('reject', new Error('captcha timeout')), CAPTCHA_TIMEOUT_MS);
-    if (widgetId === null) {
-      widgetId = turnstile.render(container, {
-        sitekey: CHAT_CONFIG.turnstileSiteKey,
-        callback: (token) => settle('resolve', token),
-        'error-callback': () => settle('reject', new Error('captcha error')),
-      });
-    } else {
-      turnstile.reset(widgetId);
+    try {
+      if (widgetId === null) {
+        widgetId = turnstile.render(container, {
+          sitekey: CHAT_CONFIG.turnstileSiteKey,
+          callback: (token) => settle('resolve', token),
+          'error-callback': () => settle('reject', new Error('captcha error')),
+        });
+      } else {
+        turnstile.reset(widgetId);
+      }
+    } catch (error) {
+      // Fail now instead of waiting for the timeout.
+      settle('reject', error);
     }
     return promise;
   };
