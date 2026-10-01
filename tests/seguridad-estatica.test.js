@@ -67,3 +67,13 @@ describe('the Content-Security-Policy of the home page allows the chat and nothi
     assert.ok(!csp.includes("'unsafe-eval'"));
   });
 });
+
+describe('the widget does not inherit the site-wide section rules', () => {
+  // css/style.css styles every `section` (max-width, big padding, borders between siblings), which
+  // squeezed the chat panel; the widget must build its panel from neutral elements.
+  it('js/chat.js creates no section or footer elements', () => {
+    const source = read('js/chat.js');
+    assert.ok(!/element\(\s*['"](section|footer)['"]/.test(source));
+    assert.ok(!/createElement\(\s*['"](section|footer)['"]/.test(source));
+  });
+});

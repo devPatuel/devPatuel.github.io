@@ -97,7 +97,7 @@ function init() {
   launcherIcon.alt = '';
   launcher.append(launcherIcon);
 
-  const panel = element('section', 'chat-panel');
+  const panel = element('div', 'chat-panel');
   panel.id = 'chat-panel';
   panel.hidden = true;
   panel.setAttribute('role', 'dialog');
