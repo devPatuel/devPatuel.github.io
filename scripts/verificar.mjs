@@ -5,7 +5,7 @@ import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const raiz = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const IGNORADOS = new Set(['.git', '.superpowers', '.worktrees', '.claude', 'docs', 'scripts', 'node_modules']);
+const IGNORADOS = new Set(['.git', '.superpowers', '.worktrees', '.claude', 'docs', 'scripts', 'tests', 'node_modules']);
 const EXTERNO = /^(https?:)?\/\//i;
 const SIN_FICHERO = /^(mailto:|tel:|data:|javascript:)/i;
 const errores = [];
