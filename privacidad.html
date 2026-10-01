@@ -68,19 +68,19 @@
 
     <h2>Qué se guarda y durante cuánto tiempo</h2>
     <ul>
-      <li>El texto de tu mensaje y la respuesta se guardan <strong>30 días</strong>, para revisar la seguridad del asistente y ver qué se intenta con él. Después se borran solos.</li>
-      <li>Esos mensajes se guardan <strong>sin ningún dato que te identifique</strong>: ni tu dirección IP ni un identificador de visitante. Lo único que los acompaña es un número aleatorio de conversación, generado en tu navegador, que agrupa los mensajes de una misma charla. Por eso no escribas datos personales.</li>
-      <li>Para limitar el uso (20 mensajes por persona y día) se calcula un identificador anónimo a partir de tu red, con una clave secreta que solo conoce el servidor. Ese identificador cambia cada día y su contador se borra al día siguiente. Tu dirección IP no se guarda.</li>
+      <li>El texto de tu mensaje y la respuesta se guardan <strong>30 días</strong>, para revisar la seguridad del asistente y ver qué se intenta con él. Un borrado automático diario los elimina a partir de entonces.</li>
+      <li>Esos mensajes se guardan <strong>sin ningún dato que te identifique</strong>: ni tu dirección IP ni un identificador de visitante. Lo único que los acompaña es un número aleatorio de conversación (generado en tu navegador, agrupa los mensajes de una misma charla), la fecha y hora exactas y una etiqueta de cómo se clasificó la respuesta (normal, rechazada o bloqueada). Por eso no escribas datos personales.</li>
+      <li>Para limitar el uso se calcula un identificador anónimo a partir de tu dirección IP (en IPv6, de su prefijo), el día y una clave secreta que solo conoce el servidor. Ese identificador cambia cada día y su contador se borra al día siguiente. La IP no se guarda en la base de datos del chat. El límite es de 20 mensajes por conexión y día (no por persona) y existe además un tope diario global para todo el chat, que puede detenerlo antes.</li>
     </ul>
 
     <h2>Comprobación anti-bots</h2>
-    <p>Para distinguir personas de programas automáticos se usa Cloudflare Turnstile. Se carga solo cuando abres el chat, no al entrar en la página. Este sitio no guarda nada en tu navegador salvo la preferencia de tema claro/oscuro. Turnstile funciona en un iframe de Cloudflare y puede usar el almacenamiento de tu navegador para sus propios fines anti-bots, según la política de Cloudflare, no de este sitio.</p>
+    <p>Para distinguir personas de programas automáticos se usa Cloudflare Turnstile. Se carga solo cuando abres el chat, no al entrar en la página. Este sitio no guarda nada en tu navegador salvo la preferencia de tema claro/oscuro. Para esa comprobación, el servidor envía tu dirección IP a Cloudflare Turnstile. Turnstile funciona en un iframe de Cloudflare y puede usar el almacenamiento de tu navegador para sus propios fines anti-bots, según la política de Cloudflare, no de este sitio.</p>
 
     <h2>Registros técnicos de Cloudflare</h2>
-    <p>Como proveedor de la infraestructura, Cloudflare puede conservar registros técnicos de las conexiones según su propia política.</p>
+    <p>El servidor tiene activados los registros técnicos de Cloudflare Workers (decisión mía). Pueden incluir datos de la conexión, como la dirección IP, y Cloudflare los conserva unos días según su propia política.</p>
 
     <h2>Cómo pedir el borrado</h2>
-    <p>Como las conversaciones se guardan sin identificarte, no puedo encontrar las tuyas por mi cuenta: escríbeme a <a href="mailto:chatbot.info@jordipatuel.com">chatbot.info@jordipatuel.com</a> con un fragmento del texto que escribiste y borraré esa conversación. En cualquier caso, todo se elimina a los 30 días.</p>
+    <p>Como las conversaciones se guardan sin identificarte, no puedo encontrar las tuyas por mi cuenta: escríbeme a <a href="mailto:chatbot.info@jordipatuel.com">chatbot.info@jordipatuel.com</a> con un fragmento del texto que escribiste y borraré esa conversación. En cualquier caso, todo se elimina a partir de los 30 días.</p>
 
     <p class="nota">Esto es un resumen honesto de un proyecto personal, no asesoramiento legal.</p>
   </main>
