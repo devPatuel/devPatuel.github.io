@@ -42,3 +42,86 @@ export function uiStateFor(kind) {
   if (kind === 'captcha_failed' || kind === 'captcha_unavailable') return 'captcha';
   return 'error';
 }
+
+async function readJson(response) {
+  try {
+    return await response.json();
+  } catch {
+    return null;
+  }
+}
+
+// Talks to the backend. The pass lives only in this closure (memory): the site forbids storing
+// anything in the browser besides the theme, and a pass is cheap to get again.
+export function createChatClient({ backendUrl, fetchFn, getCaptchaToken }) {
+  let pass = null;
+
+  async function requestPass() {
+    let token;
+    try {
+      token = await getCaptchaToken();
+    } catch {
+      throw new ChatError('captcha_failed');
+    }
+    let response;
+    try {
+      response = await fetchFn(`${backendUrl}/session`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ turnstileToken: token }),
+      });
+    } catch {
+      throw new ChatError('network');
+    }
+    const body = await readJson(response);
+    if (!response.ok) throw new ChatError(kindFromResponse(response.status, body));
+    if (body === null || typeof body.pass !== 'string') throw new ChatError('unknown');
+    pass = body.pass;
+  }
+
+  async function prepare() {
+    if (pass !== null) return;
+    try {
+      await requestPass();
+    } catch {
+      // The pass will be requested again, with the visitor waiting, when they send a message.
+    }
+  }
+
+  async function send(conversationId, message, turns) {
+    const history = trimHistory(turns);
+    for (let attempt = 0; attempt < 2; attempt++) {
+      if (pass === null) await requestPass();
+
+      let response;
+      try {
+        response = await fetchFn(`${backendUrl}/chat`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${pass}` },
+          body: JSON.stringify({ conversationId, message, history }),
+        });
+      } catch {
+        throw new ChatError('network');
+      }
+      const body = await readJson(response);
+
+      if (response.ok) {
+        if (body === null || typeof body.reply !== 'string' || typeof body.remaining !== 'number') {
+          throw new ChatError('unknown');
+        }
+        return { reply: body.reply, remaining: body.remaining };
+      }
+
+      const kind = kindFromResponse(response.status, body);
+      // A pass can expire or stop matching (new day, new address): renew it once, silently.
+      if (kind === 'invalid_pass' && attempt === 0) {
+        pass = null;
+        continue;
+      }
+      throw new ChatError(kind);
+    }
+    throw new ChatError('invalid_pass');
+  }
+
+  return { prepare, send };
+}
