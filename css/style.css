@@ -769,6 +769,11 @@ section + section { border-top: 1px solid var(--border); }
 
 .ficha-volver { margin: 0 0 1.5rem; font-size: 0.95rem; }
 .ficha-volver a { text-decoration: none; }
+
+.privacidad { overflow-wrap: anywhere; }
+.privacidad h2 { margin: 2rem 0 0.75rem; font-size: clamp(1.25rem, 2.6vw, 1.5rem); }
+.privacidad ul { max-width: 62ch; margin: 0 0 1em; padding-left: 1.25rem; }
+.privacidad li + li { margin-top: 0.6em; }
 .ficha-seccion h2 { margin-bottom: 1rem; }
 .ficha-datos { display: grid; gap: 0.9rem; margin: 2rem 0 0; }
 .ficha-datos > div {
