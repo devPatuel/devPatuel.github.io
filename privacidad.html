@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacidad del chat — Jordi Patuel</title>
+  <meta name="description" content="Qué pasa con lo que escribes en el chat con Patu, el asistente de este portfolio: qué se guarda, durante cuánto tiempo y cómo pedir el borrado." />
+  <link rel="icon" href="favicon.ico" sizes="48x48" />
+  <link rel="icon" href="img/icon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <!-- Link previews (LinkedIn, WhatsApp, email): crawlers need absolute URLs -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:site_name" content="Jordi Patuel" />
+  <meta property="og:title" content="Privacidad del chat — Jordi Patuel" />
+  <meta property="og:description" content="Qué pasa con lo que escribes en el chat con Patu, el asistente de este portfolio: qué se guarda, durante cuánto tiempo y cómo pedir el borrado." />
+  <meta property="og:url" content="https://jordipatuel.com/privacidad.html" />
+  <meta property="og:image" content="https://jordipatuel.com/img/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Jordi Patuel, desarrollador Java, Flutter y AWS" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jWJpzolVsjbyG4xpMGS0xwi/YHlQoPdDQBvqZ9jGw8I='; style-src 'self'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';" />
+  <script>
+    (function () {
+      var tema = null;
+      try { tema = localStorage.getItem('tema'); } catch (e) {}
+      if (tema !== 'claro' && tema !== 'oscuro') {
+        tema = 'claro';
+      }
+      document.documentElement.dataset.tema = tema;
+      document.documentElement.classList.add('js');
+    })();
+  </script>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/tema.js" defer></script>
+  <script src="js/copiar-email.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="wordmark" href="index.html#inicio">Jordi Patuel</a>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="index.html#trayectoria">Trayectoria</a>
+        <a href="index.html#proyectos">Proyectos</a>
+        <a href="cv.html">CV</a>
+        <a href="index.html#contacto">Contacto</a>
+        <button class="tema-toggle" type="button" aria-pressed="false" aria-label="Cambiar a modo oscuro" hidden>
+          <svg class="icon icon-sol" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.5"/><path d="M10 2v2M10 16v2M18 10h-2M4 10H2M15.5 4.5l-1.4 1.4M5.9 14.1l-1.4 1.4M15.5 15.5l-1.4-1.4M5.9 5.9L4.5 4.5"/></svg>
+          <svg class="icon icon-luna" viewBox="0 0 20 20" aria-hidden="true"><path d="M17.5 10.66A7.5 7.5 0 119.34 2.5a5.83 5.83 0 008.16 8.16z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" class="ficha" tabindex="-1">
+    <p class="ficha-volver"><a href="index.html">← Volver al inicio</a></p>
+    <h1>Privacidad del chat</h1>
+    <p>Esta página explica qué pasa con lo que escribes en el chat con Patu, el asistente de este portfolio. Es un proyecto personal: cuento exactamente lo que hace, no un texto genérico.</p>
+
+    <h2>Quién es el responsable</h2>
+    <p>Jordi Patuel Pons. Contacto: <a href="mailto:chatbot.info@jordipatuel.com">chatbot.info@jordipatuel.com</a>.</p>
+
+    <h2>Qué se envía y adónde</h2>
+    <p>Cada pregunta que escribes se envía a un servicio de Cloudflare (Workers y Workers AI) para generar la respuesta. Patu es una inteligencia artificial: puede equivocarse y no sustituye a hablar con Jordi.</p>
+
+    <h2>Qué se guarda y durante cuánto tiempo</h2>
+    <ul>
+      <li>El texto de tu mensaje y la respuesta se guardan <strong>30 días</strong>, para revisar la seguridad del asistente y ver qué se intenta con él. Después se borran solos.</li>
+      <li>Esos mensajes se guardan <strong>sin ningún dato que te identifique</strong>: ni tu dirección IP ni un identificador de visitante. Lo único que los acompaña es un número aleatorio de conversación, generado en tu navegador, que agrupa los mensajes de una misma charla. Por eso no escribas datos personales.</li>
+      <li>Para limitar el uso (20 mensajes por persona y día) se calcula un identificador anónimo a partir de tu red, con una clave secreta que solo conoce el servidor. Ese identificador cambia cada día y su contador se borra al día siguiente. Tu dirección IP no se guarda.</li>
+    </ul>
+
+    <h2>Comprobación anti-bots</h2>
+    <p>Para distinguir personas de programas automáticos se usa Cloudflare Turnstile. Se carga solo cuando abres el chat, no al entrar en la página. Este sitio no guarda nada en tu navegador salvo la preferencia de tema claro/oscuro. Turnstile funciona en un iframe de Cloudflare y puede usar el almacenamiento de tu navegador para sus propios fines anti-bots, según la política de Cloudflare, no de este sitio.</p>
+
+    <h2>Registros técnicos de Cloudflare</h2>
+    <p>Como proveedor de la infraestructura, Cloudflare puede conservar registros técnicos de las conexiones según su propia política.</p>
+
+    <h2>Cómo pedir el borrado</h2>
+    <p>Como las conversaciones se guardan sin identificarte, no puedo encontrar las tuyas por mi cuenta: escríbeme a <a href="mailto:chatbot.info@jordipatuel.com">chatbot.info@jordipatuel.com</a> con un fragmento del texto que escribiste y borraré esa conversación. En cualquier caso, todo se elimina a los 30 días.</p>
+
+    <p class="nota">Esto es un resumen honesto de un proyecto personal, no asesoramiento legal.</p>
+  </main>
+
+  <footer id="contacto" class="site-footer">
+    <h2>Contacto</h2>
+    <ul class="contact-list" role="list">
+      <li class="contacto-email">
+        <a class="contact-link" href="mailto:work@jordipatuel.com">
+          <svg class="icon icon-mail" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="4" width="16" height="12" rx="1.5"/><path d="M3 5.5l7 5.5 7-5.5"/></svg>
+          <span>work@jordipatuel.com</span>
+        </a>
+        <button class="copiar-email" type="button" data-copiar="work@jordipatuel.com" aria-label="Copiar email" hidden>
+          <svg class="icon icon-copiar" viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M13 7V4.5A1.5 1.5 0 0011.5 3h-8A1.5 1.5 0 002 4.5v8A1.5 1.5 0 003.5 14H6"/></svg>
+        </button>
+        <span class="copiar-estado" role="status"></span>
+      </li>
+      <li>
+        <a class="contact-link" href="https://github.com/devPatuel" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span>github.com/devPatuel</span>
+        </a>
+      </li>
+      <li>
+        <a class="contact-link" href="https://www.linkedin.com/in/jordi-patuel" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-linkedin" viewBox="0 0 16 16" aria-hidden="true"><rect x="0.5" y="0.5" width="15" height="15" rx="2.5"/><text x="8" y="11.2" text-anchor="middle">in</text></svg>
+          <span>LinkedIn</span>
+        </a>
+      </li>
+    </ul>
+    <p class="copyright">© 2026 Jordi Patuel · Todos los derechos reservados</p>
+  </footer>
+</body>
+</html>
