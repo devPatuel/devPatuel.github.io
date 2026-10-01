@@ -55,8 +55,9 @@ async function readJson(response) {
 // anything in the browser besides the theme, and a pass is cheap to get again.
 export function createChatClient({ backendUrl, fetchFn, getCaptchaToken }) {
   let pass = null;
+  let passRequest = null;
 
-  async function requestPass() {
+  async function fetchPass() {
     let token;
     try {
       token = await getCaptchaToken();
@@ -77,6 +78,17 @@ export function createChatClient({ backendUrl, fetchFn, getCaptchaToken }) {
     if (!response.ok) throw new ChatError(kindFromResponse(response.status, body));
     if (body === null || typeof body.pass !== 'string') throw new ChatError('unknown');
     pass = body.pass;
+  }
+
+  // prepare() and send() can overlap while the captcha is pending: share one request so the
+  // visitor never triggers two captcha tokens and two /session calls.
+  function requestPass() {
+    if (passRequest === null) {
+      passRequest = fetchPass().finally(() => {
+        passRequest = null;
+      });
+    }
+    return passRequest;
   }
 
   async function prepare() {

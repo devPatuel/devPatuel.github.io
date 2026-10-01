@@ -149,6 +149,23 @@ describe('createChatClient', () => {
     assert.equal(fetchFn.calls.length, 3);
   });
 
+  it('shares one in-flight pass request between prepare and send', async () => {
+    const fetchFn = fakeFetch([SESSION_OK('pass-1'), OK]);
+    let calls = 0;
+    const getCaptchaToken = () => {
+      calls++;
+      return new Promise((resolve) => setTimeout(() => resolve(`token-${calls}`), 20));
+    };
+    const client = createChatClient({ backendUrl: BACKEND, fetchFn, getCaptchaToken });
+
+    const preparing = client.prepare();
+    const sending = client.send(ID, 'hola', []);
+    await Promise.all([preparing, sending]);
+
+    assert.equal(calls, 1);
+    assert.equal(fetchFn.calls.filter((c) => c.url.endsWith('/session')).length, 1);
+  });
+
   it('sends at most the last 20 history entries', async () => {
     const fetchFn = fakeFetch([SESSION_OK('p'), OK]);
     const client = createChatClient({ backendUrl: BACKEND, fetchFn, getCaptchaToken: tokens() });
