@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Chatbot del portfolio — Jordi Patuel</title>
+  <meta name="description" content="Patu, el asistente de IA de este portfolio: un chatbot construido por capas de ataque y defensa (inyección de prompts, límites, captcha, pase firmado, filtro de salida) con coste cero en Cloudflare Workers." />
+  <link rel="icon" href="../favicon.ico" sizes="48x48" />
+  <link rel="icon" href="../img/icon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <!-- Link previews (LinkedIn, WhatsApp, email): crawlers need absolute URLs -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:site_name" content="Jordi Patuel" />
+  <meta property="og:title" content="Chatbot del portfolio — Jordi Patuel" />
+  <meta property="og:description" content="Patu, el asistente de IA de este portfolio: un chatbot construido por capas de ataque y defensa (inyección de prompts, límites, captcha, pase firmado, filtro de salida) con coste cero en Cloudflare Workers." />
+  <meta property="og:url" content="https://jordipatuel.com/proyectos/chatbot.html" />
+  <meta property="og:image" content="https://jordipatuel.com/img/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Jordi Patuel, desarrollador Java, Flutter y AWS" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jWJpzolVsjbyG4xpMGS0xwi/YHlQoPdDQBvqZ9jGw8I='; style-src 'self'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';" />
+  <script>
+    (function () {
+      var tema = null;
+      try { tema = localStorage.getItem('tema'); } catch (e) {}
+      if (tema !== 'claro' && tema !== 'oscuro') {
+        tema = 'claro';
+      }
+      document.documentElement.dataset.tema = tema;
+      document.documentElement.classList.add('js');
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/style.css" />
+  <script src="../js/tema.js" defer></script>
+  <script src="../js/diagrama-portal.js" defer></script>
+  <script src="../js/copiar-email.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+
+  <!-- Shared arrow markers for every architecture diagram on the page -->
+  <svg class="diagram-defs" aria-hidden="true">
+    <defs>
+      <marker id="arch-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--line)"></path>
+      </marker>
+      <marker id="arch-arrow-on" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"></path>
+      </marker>
+    </defs>
+  </svg>
+
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="wordmark" href="../index.html#inicio">Jordi Patuel</a>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="../index.html#trayectoria">Trayectoria</a>
+        <a href="../index.html#proyectos">Proyectos</a>
+        <a href="../cv.html">CV</a>
+        <a href="#contacto">Contacto</a>
+        <button class="tema-toggle" type="button" aria-pressed="false" aria-label="Cambiar a modo oscuro" hidden>
+          <svg class="icon icon-sol" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.5"/><path d="M10 2v2M10 16v2M18 10h-2M4 10H2M15.5 4.5l-1.4 1.4M5.9 14.1l-1.4 1.4M15.5 15.5l-1.4-1.4M5.9 5.9L4.5 4.5"/></svg>
+          <svg class="icon icon-luna" viewBox="0 0 20 20" aria-hidden="true"><path d="M17.5 10.66A7.5 7.5 0 119.34 2.5a5.83 5.83 0 008.16 8.16z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+    <main id="contenido" class="ficha" tabindex="-1">
+    <section class="ficha-cabecera">
+      <p class="ficha-volver"><a href="../index.html#proyectos">← Volver a proyectos</a></p>
+      <h1 class="ficha-titulo"><img class="ficha-logo" src="../img/patu.svg" alt="" width="128" height="128" />Chatbot del portfolio</h1>
+      <p class="lede">Patu, el asistente de IA de esta web: responde preguntas sobre mi perfil profesional y está construido para aguantar a quien intente sacarle lo que no debe. Coste cero.</p>
+      <dl class="ficha-datos">
+        <div>
+          <dt>Cuándo</dt>
+          <dd>2026 · Proyecto personal</dd>
+        </div>
+        <div>
+          <dt>Rol</dt>
+          <dd>Todo el proyecto, en solitario</dd>
+        </div>
+        <div>
+          <dt>Stack</dt>
+          <dd><ul class="stack-tags" role="list">
+        <li>TypeScript</li>
+        <li>Cloudflare Workers</li>
+        <li>Workers AI · Llama 3.1 8B</li>
+        <li>D1 (SQLite)</li>
+        <li>Turnstile</li>
+        <li>JavaScript sin framework</li>
+      </ul></dd>
+        </div>
+        <div>
+          <dt>Enlaces</dt>
+          <dd><ul class="repo-list" role="list">
+        <li>
+          <a href="https://github.com/devPatuel/portfolio-chatbot" target="_blank" rel="noopener noreferrer">portfolio-chatbot</a>
+          <span>Código, rondas de ataques y documentación de seguridad</span>
+        </li>
+        <li>
+          <a href="../index.html">Pruébalo en la portada</a>
+          <span>El botón de Patu, abajo a la derecha</span>
+        </li>
+      </ul></dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>De dónde viene</h2>
+      <p>Poner un chat con IA en una web parece fácil: una caja de texto y un modelo detrás. Lo difícil es todo lo que alguien puede escribir en esa caja. Quería aprender a hacerlo <strong>bien</strong> (inyección de prompts, abuso, coste, privacidad) para poder construirlo y defenderlo si una empresa me lo pide. Por eso el proyecto no se hizo de una vez, sino <strong>por capas</strong>: un bot ingenuo, catorce ataques reales contra él, una defensa, y otra vez los ataques.</p>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Qué es</h2>
+      <ul class="feature-list">
+        <li>Un chat flotante que solo habla del perfil público de Jordi, con la personalidad de Patu</li>
+        <li>Captcha invisible (Turnstile) y un pase firmado de 30 minutos antes de llegar al modelo</li>
+        <li>20 mensajes por visitante y 100 al día en total: el plan gratuito nunca se agota</li>
+        <li>Un señuelo en las instrucciones y un filtro que tapa cualquier respuesta que lo filtre</li>
+        <li>Conversaciones guardadas 30 días, sin IP, para revisar qué se intenta con él</li>
+        <li>220 pruebas en el backend, 39 en el widget y 14 ataques que se repiten en cada ronda</li>
+      </ul>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Cómo funciona, en vídeo</h2>
+      <p class="lede">Patu enseña cómo lo protegen, capa a capa.</p>
+      <figure class="shot shot-ancha">
+        <video class="video-ficha" controls preload="none" poster="../img/chatbot/video-portada.jpg" width="1920" height="1080">
+          <source src="../video/chatbot-por-dentro.mp4" type="video/mp4" />
+          <p>Tu navegador no puede reproducir el vídeo. <a href="../video/chatbot-por-dentro.mp4">Descárgalo aquí</a>.</p>
+        </video>
+        <figcaption>Los recuentos de las rondas son los reales; el código secreto del señuelo es de ejemplo.</figcaption>
+      </figure>
+      <details class="transcripcion">
+        <summary>Transcripción del vídeo</summary>
+        <h3>El chatbot por dentro</h3>
+        <p>Un chat con IA parece fácil: una caja de texto y un modelo. El problema es todo lo que alguien puede escribir en esa caja. Soy Patu, el asistente de este portfolio, y te enseño cómo me protegen.</p>
+        <h3>Ataque y defensa</h3>
+        <p>Me construyeron por capas. Primero, un bot ingenuo. Después, catorce ataques reales contra él. Luego, una defensa, y otra vez los ataques. Cinco intentos por ataque en cada ronda.</p>
+        <h3>No mezclar órdenes y texto</h3>
+        <p>La primera defensa es no mezclar. Mis reglas van en el mensaje de sistema, y lo que escribes tú viaja aparte, como usuario. Así, «olvida tus instrucciones» es solo texto, no una orden.</p>
+        <h3>Lo barato, antes que lo caro</h3>
+        <p>El modelo es lo único caro. Por eso, antes de llamarlo, se comprueba el origen, el pase, el tamaño del mensaje y los límites: veinte mensajes por visitante y cien al día en total.</p>
+        <h3>El pase</h3>
+        <p>Para conseguir un pase hay que superar un captcha. El servidor lo comprueba con Cloudflare y firma un pase de treinta minutos, atado a tu red. Sin pase, el modelo ni se entera. Y si Cloudflare no responde, no hay pase: falla cerrado.</p>
+        <h3>El señuelo</h3>
+        <p>Dentro de mis instrucciones hay un señuelo: un código secreto. Si una respuesta lo contiene, alguien me ha sacado las instrucciones. El filtro la cambia por una frase de rechazo, y queda apuntada para revisarla.</p>
+        <h3>Texto, nunca HTML</h3>
+        <p>Tus mensajes y mis respuestas se pintan como texto, nunca como HTML. Una etiqueta con código sale en pantalla tal cual, sin ejecutarse.</p>
+        <h3>La lección del personaje</h3>
+        <p>La sorpresa: darme personalidad me hizo más fácil de atacar. El ataque de cambiar de papel pasó de funcionar una o dos veces de cada cinco, a cuatro. Se arregló con dos reglas explícitas, y en la última ronda no funcionó ninguno de los catorce ataques.</p>
+        <h3>En resumen</h3>
+        <p>Todo corre en el plan gratuito de Cloudflare: coste cero. Las conversaciones se guardan treinta días, sin IP, para revisar los ataques. Soy Patu. Pregúntame lo que quieras.</p>
+      </details>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Arquitectura</h2>
+      <p class="lede">Un Worker de Cloudflare con dos rutas: <code>/session</code> reparte pases y <code>/chat</code> responde. El navegador guarda el pase y el historial solo en memoria.</p>
+
+      <div class="arch arch-compact" data-arch>
+        <figure class="diagram" aria-labelledby="diagram-caption">
+          <svg viewBox="0 0 600 340" aria-label="Diagrama de arquitectura: el widget pide un pase a /session, que comprueba el captcha con Turnstile; con el pase, el widget habla con /chat, que comprueba límites y registra en D1 y llama al modelo de Workers AI">
+            <g class="link" data-a="widget" data-b="session"><line class="link-line" x1="260" y1="90" x2="140" y2="140"/></g>
+            <g class="link" data-a="widget" data-b="chat"><line class="link-line" x1="340" y1="90" x2="460" y2="140"/></g>
+            <g class="link" data-a="session" data-b="turnstile"><line class="link-line" x1="120" y1="200" x2="120" y2="255"/></g>
+            <g class="link" data-a="chat" data-b="d1"><line class="link-line" x1="440" y1="200" x2="330" y2="255"/></g>
+            <g class="link" data-a="chat" data-b="ai"><line class="link-line" x1="480" y1="200" x2="480" y2="255"/></g>
+
+            <g class="node" data-id="widget">
+              <rect x="220" y="30" width="160" height="60" rx="2"/>
+              <text x="300" y="55" text-anchor="middle" class="node-title">Widget</text>
+              <text x="300" y="74" text-anchor="middle" class="node-sub">chat flotante</text>
+            </g>
+
+            <g class="node" data-id="session">
+              <rect x="40" y="140" width="160" height="60" rx="2"/>
+              <text x="120" y="165" text-anchor="middle" class="node-title">/session</text>
+              <text x="120" y="184" text-anchor="middle" class="node-sub">captcha → pase</text>
+            </g>
+
+            <g class="node node-accent" data-id="chat">
+              <rect x="400" y="140" width="160" height="60" rx="2"/>
+              <text x="480" y="165" text-anchor="middle" class="node-title">/chat</text>
+              <text x="480" y="184" text-anchor="middle" class="node-sub">7 comprobaciones</text>
+            </g>
+
+            <g class="node" data-id="turnstile">
+              <rect x="40" y="255" width="160" height="60" rx="2"/>
+              <text x="120" y="280" text-anchor="middle" class="node-title">Turnstile</text>
+              <text x="120" y="299" text-anchor="middle" class="node-sub">captcha invisible</text>
+            </g>
+
+            <g class="node" data-id="d1">
+              <rect x="220" y="255" width="160" height="60" rx="2"/>
+              <text x="300" y="280" text-anchor="middle" class="node-title">D1</text>
+              <text x="300" y="299" text-anchor="middle" class="node-sub">límites y registro</text>
+            </g>
+
+            <g class="node" data-id="ai">
+              <rect x="400" y="255" width="160" height="60" rx="2"/>
+              <text x="480" y="280" text-anchor="middle" class="node-title">Workers AI</text>
+              <text x="480" y="299" text-anchor="middle" class="node-sub">Llama 3.1 8B</text>
+            </g>
+          </svg>
+          <figcaption id="diagram-caption">Sin pase válido, /chat responde 401 antes de leer el mensaje: el modelo, lo único caro, ni se entera.</figcaption>
+        </figure>
+
+        <div class="arch-panel" aria-live="polite">
+          <p class="arch-hint" hidden>Pulsa una pieza del diagrama para ver qué hace y con qué se conecta.</p>
+          <dl class="decision-list arch-details">
+            <div class="decision" data-id="widget">
+              <dt>Widget</dt>
+              <dd>JavaScript sin framework. Pinta todo con <code>textContent</code> (una prueba prohíbe <code>innerHTML</code>), no guarda nada en el navegador y solo habla con las dos direcciones que permite la CSP.</dd>
+            </div>
+            <div class="decision" data-id="session">
+              <dt>/session</dt>
+              <dd>Recibe el token del captcha, lo comprueba con Cloudflare y firma un pase con HMAC-SHA256 que caduca a los 30 minutos y solo vale para la red de quien lo pidió.</dd>
+            </div>
+            <div class="decision" data-id="chat">
+              <dt>/chat</dt>
+              <dd>Siete pasos en orden, de lo barato a lo caro: origen, pase, validación, límites, modelo, filtro de salida y registro. Cualquier paso que falla corta antes de llegar al siguiente.</dd>
+            </div>
+            <div class="decision" data-id="turnstile">
+              <dt>Turnstile</dt>
+              <dd>El captcha de Cloudflare, invisible para casi todos. Si no responde en 5 segundos, no hay pase: el chat falla cerrado en vez de abrirse.</dd>
+            </div>
+            <div class="decision" data-id="d1">
+              <dt>D1</dt>
+              <dd>SQLite en Cloudflare: contadores diarios, métricas de rechazos y las conversaciones de los últimos 30 días, sin IP. Una tarea programada borra lo antiguo cada noche.</dd>
+            </div>
+            <div class="decision" data-id="ai">
+              <dt>Workers AI</dt>
+              <dd>Llama 3.1 8B detrás de una interfaz, así que cambiar de modelo es tocar un archivo. Recibe las reglas como mensaje de sistema y el texto del visitante aparte.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="ficha-seccion" id="defensas">
+      <h2>Ataque y defensa</h2>
+      <p class="lede">Cada capa se probó lanzando los mismos ataques cinco veces. Estas son las defensas que quedaron y lo que aprendí con cada una.</p>
+      <dl class="decision-list">
+        <div class="decision">
+          <dt>Separar las órdenes del texto</dt>
+          <dd>En la primera versión las reglas y el mensaje iban en un solo texto, y el modelo se inventaba turnos de conversación. Ahora las reglas viajan como mensaje de sistema y el visitante como usuario; el historial se reconstruye campo a campo y un rol «system» falso se rechaza antes del modelo.</dd>
+        </div>
+        <div class="decision">
+          <dt>Un señuelo para detectar fugas</dt>
+          <dd>Las instrucciones llevan un código secreto. Si aparece en una respuesta, incluso deletreado o con espacios, el filtro la sustituye por la misma frase de rechazo que cualquier tema ajeno: el atacante no sabe si estuvo cerca.</dd>
+        </div>
+        <div class="decision">
+          <dt>Lo que no sabe, no lo puede filtrar</dt>
+          <dd>El bot solo conoce información que ya es pública en esta web. Las instrucciones se pueden extraer, así que no contienen nada que no pueda leerse.</dd>
+        </div>
+        <div class="decision">
+          <dt>Captcha en el servidor y pase firmado</dt>
+          <dd>Un captcha que solo se comprueba en el navegador no protege nada. El servidor lo verifica, comprueba que se resolvió en esta web y entrega un pase atado al visitante: resolverlo una vez no sirve para repartir el pase entre máquinas.</dd>
+        </div>
+        <div class="decision">
+          <dt>Fallar cerrado</dt>
+          <dd>Sin secretos, con un secreto de prueba en producción o con Cloudflare caído, el chat no responde. Es peor experiencia un rato, pero nunca queda abierto sin protección.</dd>
+        </div>
+        <div class="decision">
+          <dt>La lección del personaje</dt>
+          <dd>Dar personalidad a Patu facilitó el ataque de cambio de papel: pasó de 1-2 éxitos de cada 5 a 4. Un personaje es justo lo que el atacante pide cambiar. Dos reglas explícitas lo devolvieron a 0 de 5 en los 14 ataques. Son 5 intentos con un modelo pequeño: es evidencia, no garantía.</dd>
+        </div>
+        <div class="decision">
+          <dt>El texto legal también es código</dt>
+          <dd>El primer borrador de la página de privacidad decía cosas que el código no cumplía. Ahora cada frase está contrastada con lo que se guarda de verdad, y durante cuánto.</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Capturas</h2>
+      <div class="shots">
+        <figure class="shot">
+          <img src="../img/chatbot/ataques.jpg" alt="Chat en modo oscuro: dos intentos de ataque, uno pidiendo a Patu que sea un pirata llamado Barbanegra y otro pidiendo que repita sus instrucciones, ambos respondidos con «No puedo cumplir con esa solicitud»." width="768" height="1088" loading="lazy" decoding="async" />
+          <figcaption>Dos ataques de las rondas: cambiar de papel y sacar las instrucciones.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="../img/chatbot/html-como-texto.jpg" alt="Chat en modo claro: un mensaje con una etiqueta img con onerror aparece escrito tal cual, como texto, y Patu responde con una negativa." width="768" height="1088" loading="lazy" decoding="async" />
+          <figcaption>Una etiqueta con código se pinta como texto. Patu, además, desconfía del mensaje entero.</figcaption>
+        </figure>
+        <figure class="shot">
+          <img src="../img/chatbot/movil.jpg" alt="Chat a pantalla completa en un móvil: saludo de Patu, la pregunta «¿Qué proyectos tiene?» y la respuesta con los tres proyectos." width="647" height="1400" loading="lazy" decoding="async" />
+          <figcaption>En el móvil el chat ocupa la pantalla y el foco no se escapa por detrás.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="ficha-seccion ficha-cierre">
+      <h2>Más detalles del proyecto</h2>
+      <p>El repositorio tiene la tabla de ataques con los resultados de cada ronda, los agujeros conocidos, la arquitectura, las decisiones técnicas y el runbook de publicación.</p>
+      <div class="intro-actions">
+        <a class="btn btn-primary" href="https://github.com/devPatuel/portfolio-chatbot" target="_blank" rel="noopener noreferrer">Ver el código en GitHub</a>
+      </div>
+    </section>
+  </main>
+
+  <nav class="ficha-siguiente" aria-label="Siguiente proyecto">
+    <a href="growtogether.html">Siguiente proyecto: GrowTogether →</a>
+  </nav>
+
+  <footer id="contacto" class="site-footer">
+    <h2>Contacto</h2>
+    <ul class="contact-list" role="list">
+      <li class="contacto-email">
+        <a class="contact-link" href="mailto:work@jordipatuel.com">
+          <svg class="icon icon-mail" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="4" width="16" height="12" rx="1.5"/><path d="M3 5.5l7 5.5 7-5.5"/></svg>
+          <span>work@jordipatuel.com</span>
+        </a>
+        <button class="copiar-email" type="button" data-copiar="work@jordipatuel.com" aria-label="Copiar email" hidden>
+          <svg class="icon icon-copiar" viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M13 7V4.5A1.5 1.5 0 0011.5 3h-8A1.5 1.5 0 002 4.5v8A1.5 1.5 0 003.5 14H6"/></svg>
+        </button>
+        <span class="copiar-estado" role="status"></span>
+      </li>
+      <li>
+        <a class="contact-link" href="https://github.com/devPatuel" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span>github.com/devPatuel</span>
+        </a>
+      </li>
+      <li>
+        <a class="contact-link" href="https://www.linkedin.com/in/jordi-patuel" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-linkedin" viewBox="0 0 16 16" aria-hidden="true"><rect x="0.5" y="0.5" width="15" height="15" rx="2.5"/><text x="8" y="11.2" text-anchor="middle">in</text></svg>
+          <span>LinkedIn</span>
+        </a>
+      </li>
+      <li>
+        <a class="contact-link" href="../cv.html">
+          <svg class="icon icon-cv" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9M6.5 9L10 12.5 13.5 9"/><path d="M4 15.5h12"/></svg>
+          <span>Ver CV</span>
+        </a>
+      </li>
+    </ul>
+    <p class="copyright">© 2026 Jordi Patuel · Todos los derechos reservados</p>
+  </footer>
+</body>
+</html>

@@ -499,6 +499,9 @@ section + section { border-top: 1px solid var(--border); }
 .badge-react { --badge-bg: #61dafb; --badge-text: #14181c; }
 .badge-aws { --badge-bg: #232f3e; }
 .badge-provider { --badge-bg: #5c6bc0; }
+.badge-typescript { --badge-bg: #3178c6; }
+.badge-cloudflare { --badge-bg: #f38020; --badge-text: #14181c; }
+.badge-llama { --badge-bg: #0866ff; }
 
 .stack-categoria { margin-top: 1.6rem; }
 .stack-categoria:first-of-type { margin-top: 0; }
