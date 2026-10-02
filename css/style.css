@@ -842,3 +842,23 @@ section + section { border-top: 1px solid var(--border); }
 
 .contacto-email { display: flex; align-items: center; flex-wrap: wrap; gap: 0.6rem; }
 .copiar-estado { font-size: 0.85rem; color: var(--accent); }
+
+/* comparativa (chatbot: gratis frente a de pago) */
+
+.comparativa-envoltorio { overflow-x: auto; margin: 1rem 0 2rem; }
+.comparativa { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+.comparativa th, .comparativa td { text-align: left; vertical-align: top; padding: 0.7rem 0.8rem; border-bottom: 1px solid var(--border); }
+.comparativa thead th { font-family: var(--font-mono); font-size: 0.8rem; font-weight: 500; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.04em; }
+.comparativa tbody th { font-family: var(--font-display); font-weight: 600; white-space: nowrap; }
+.comparativa td { color: var(--text-dim); }
+.comparativa td:last-child { color: var(--text); }
+@media (max-width: 640px) {
+  .comparativa, .comparativa tbody, .comparativa tr, .comparativa th, .comparativa td { display: block; }
+  .comparativa thead { display: none; }
+  .comparativa tr { padding: 0.6rem 0; border-bottom: 1px solid var(--border); }
+  .comparativa th, .comparativa td { border: 0; padding: 0.2rem 0; }
+  .comparativa td:nth-of-type(1)::before { content: "Gratis: "; font-weight: 600; }
+  .comparativa td:nth-of-type(2)::before { content: "De pago: "; font-weight: 600; }
+}
+.flujo { font-family: var(--font-mono); font-size: 0.88rem; color: var(--warm); margin: 0 0 0.5em; }
+.decision dd p { margin: 0 0 0.5em; }
