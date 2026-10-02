@@ -314,3 +314,10 @@ describe('uiStateFor when the bot itself cannot answer', () => {
     assert.equal(uiStateFor('invalid_request'), 'error');
   });
 });
+
+describe('uiStateFor a burst', () => {
+  it('asks the visitor to slow down instead of showing an error', () => {
+    assert.equal(kindFromResponse(429, { error: 'too_many_requests' }), 'too_many_requests');
+    assert.equal(uiStateFor('too_many_requests'), 'slow_down');
+  });
+});

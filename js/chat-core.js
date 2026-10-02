@@ -28,6 +28,7 @@ export class ChatError extends Error {
 const KNOWN_KINDS = new Set([
   'visitor_limit',
   'daily_limit',
+  'too_many_requests',
   'invalid_pass',
   'captcha_failed',
   'captcha_unavailable',
@@ -46,6 +47,7 @@ export function kindFromResponse(status, body) {
 export function uiStateFor(kind) {
   if (kind === 'visitor_limit') return 'limit_visitor';
   if (kind === 'daily_limit') return 'limit_global';
+  if (kind === 'too_many_requests') return 'slow_down';
   if (kind === 'captcha_failed' || kind === 'captcha_unavailable') return 'captcha';
   // The bot cannot answer at all: most often its free daily quota (model or database) ran out.
   if (['model_error', 'internal_error', 'server_misconfigured', 'unknown'].includes(kind)) return 'unavailable';
