@@ -47,6 +47,8 @@ export function uiStateFor(kind) {
   if (kind === 'visitor_limit') return 'limit_visitor';
   if (kind === 'daily_limit') return 'limit_global';
   if (kind === 'captcha_failed' || kind === 'captcha_unavailable') return 'captcha';
+  // The bot cannot answer at all: most often its free daily quota (model or database) ran out.
+  if (['model_error', 'internal_error', 'server_misconfigured', 'unknown'].includes(kind)) return 'unavailable';
   return 'error';
 }
 

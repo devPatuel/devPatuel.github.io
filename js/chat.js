@@ -13,6 +13,7 @@ const MESSAGES = {
   captcha: 'No he podido comprobar que eres una persona. Inténtalo de nuevo en un momento.',
   limit_visitor: 'Has llegado al límite de mensajes de hoy. Vuelve mañana o escribe a ',
   limit_global: 'El asistente ha llegado a su límite de hoy. Vuelve mañana o escribe a ',
+  unavailable: 'Ahora mismo no puedo responder. Puede que se haya agotado mi cuota gratuita de hoy: vuelve mañana o escribe a ',
 };
 const CAPTCHA_TIMEOUT_MS = 30000;
 // Resolved from this script, not from the page, so the chat works on /proyectos/ pages too.
@@ -182,7 +183,8 @@ function init() {
       status.textContent = '';
       return;
     }
-    addLine('aviso', MESSAGES[state]);
+    const line = addLine('aviso', MESSAGES[state]);
+    if (state === 'unavailable') line.append(contactLink(), '.');
     status.textContent = '';
   }
 

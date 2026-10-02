@@ -84,8 +84,8 @@ describe('uiStateFor', () => {
     assert.equal(uiStateFor('captcha_unavailable'), 'captcha');
   });
 
-  it('shows a generic error for everything else', () => {
-    for (const kind of ['model_error', 'invalid_request', 'invalid_pass', 'network', 'unknown']) {
+  it('shows a generic error for the rest, including the visitor\'s own network failing', () => {
+    for (const kind of ['invalid_request', 'invalid_pass', 'network']) {
       assert.equal(uiStateFor(kind), 'error');
     }
   });
@@ -299,5 +299,18 @@ describe('trappedFocusIndex', () => {
   it('lets the browser move focus between inner elements', () => {
     assert.equal(trappedFocusIndex(1, 4, false), null);
     assert.equal(trappedFocusIndex(2, 4, true), null);
+  });
+});
+
+describe('uiStateFor when the bot itself cannot answer', () => {
+  // The free quota of the model or the database running out shows up as these errors.
+  for (const kind of ['model_error', 'internal_error', 'server_misconfigured', 'unknown']) {
+    it(`treats ${kind} as "unavailable, maybe the daily quota"`, () => {
+      assert.equal(uiStateFor(kind), 'unavailable');
+    });
+  }
+
+  it('keeps a plain error for a request the widget built wrong', () => {
+    assert.equal(uiStateFor('invalid_request'), 'error');
   });
 });
