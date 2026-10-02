@@ -10,6 +10,13 @@ export function trimHistory(turns) {
   return paired.slice(Math.max(0, paired.length - MAX_HISTORY_ENTRIES));
 }
 
+// Focus trap for the full-screen panel: returns where Tab should land, or null to let the
+// browser move focus normally. `current` is -1 when focus is outside the panel.
+export function trappedFocusIndex(current, count, backwards) {
+  if (backwards) return current <= 0 ? count - 1 : null;
+  return current === -1 || current === count - 1 ? 0 : null;
+}
+
 export class ChatError extends Error {
   constructor(kind) {
     super(kind);

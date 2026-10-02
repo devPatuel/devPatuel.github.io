@@ -5,6 +5,7 @@ import {
   MAX_HISTORY_ENTRIES,
   createChatClient,
   kindFromResponse,
+  trappedFocusIndex,
   trimHistory,
   uiStateFor,
 } from '../js/chat-core.js';
@@ -278,5 +279,25 @@ describe('createChatClient', () => {
       },
     });
     await assert.doesNotReject(failing.prepare());
+  });
+});
+
+describe('trappedFocusIndex', () => {
+  it('wraps from the last element to the first on Tab', () => {
+    assert.equal(trappedFocusIndex(3, 4, false), 0);
+  });
+
+  it('wraps from the first element to the last on Shift+Tab', () => {
+    assert.equal(trappedFocusIndex(0, 4, true), 3);
+  });
+
+  it('pulls focus back in when it is outside the panel', () => {
+    assert.equal(trappedFocusIndex(-1, 4, false), 0);
+    assert.equal(trappedFocusIndex(-1, 4, true), 3);
+  });
+
+  it('lets the browser move focus between inner elements', () => {
+    assert.equal(trappedFocusIndex(1, 4, false), null);
+    assert.equal(trappedFocusIndex(2, 4, true), null);
   });
 });

@@ -1,7 +1,7 @@
 // DOM of the floating chat. The logic lives in chat-core.js; this file only builds elements.
 // Every piece of text from the visitor or the model goes in through textContent, never as markup.
 import { CHAT_CONFIG } from './chat-config.js';
-import { ChatError, MAX_MESSAGE_CHARS, createChatClient, uiStateFor } from './chat-core.js';
+import { ChatError, MAX_MESSAGE_CHARS, createChatClient, trappedFocusIndex, uiStateFor } from './chat-core.js';
 
 const GREETING =
   '¡Hola! Soy Patu, el robot de este portfolio. Puedo contarte lo que Jordi ha publicado sobre su perfil: tecnologías, proyectos y formación. ¿Qué quieres saber?';
@@ -15,6 +15,8 @@ const MESSAGES = {
   limit_global: 'El asistente ha llegado a su límite de hoy. Vuelve mañana o escribe a ',
 };
 const CAPTCHA_TIMEOUT_MS = 30000;
+// Same breakpoint as css/chat.css: below it the panel covers the whole page and acts as a modal.
+const FULL_SCREEN = window.matchMedia('(max-width: 40rem)');
 
 function element(tag, className, text) {
   const node = document.createElement(tag);
@@ -214,7 +216,20 @@ function init() {
     suggestions.append(button);
   }
 
+  // On a full-screen panel the page behind is hidden, so Tab must not wander into it.
+  function syncModal() {
+    if (FULL_SCREEN.matches) panel.setAttribute('aria-modal', 'true');
+    else panel.removeAttribute('aria-modal');
+  }
+
+  function focusables() {
+    return [...panel.querySelectorAll('button, input, a[href], iframe')].filter(
+      (node) => !node.disabled && node.offsetParent !== null,
+    );
+  }
+
   function open() {
+    syncModal();
     panel.hidden = false;
     launcher.setAttribute('aria-expanded', 'true');
     if (!opened) {
@@ -237,7 +252,15 @@ function init() {
   closeButton.addEventListener('click', close);
   panel.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') close();
+    if (event.key !== 'Tab' || !FULL_SCREEN.matches) return;
+    const nodes = focusables();
+    if (nodes.length === 0) return;
+    const target = trappedFocusIndex(nodes.indexOf(document.activeElement), nodes.length, event.shiftKey);
+    if (target === null) return;
+    event.preventDefault();
+    nodes[target].focus();
   });
+  FULL_SCREEN.addEventListener('change', syncModal);
   form.addEventListener('submit', (event) => {
     event.preventDefault();
     const text = input.value;
