@@ -66,7 +66,7 @@ function comprobarReferenciaLocal(origen, valor) {
 // file and exactly these values; any other external address in any script still fails.
 const ARCHIVO_CONFIG_CHAT = join('js', 'chat-config.js');
 const DIRECCIONES_CHAT = new Set([
-  'http://localhost:8787',
+  'https://portfolio-chatbot.devpatuel.workers.dev',
   'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit',
 ]);
 

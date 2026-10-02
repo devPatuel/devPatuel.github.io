@@ -74,8 +74,7 @@ describe('the Content-Security-Policy allows the chat and nothing more', () => {
 
   it('lets the page talk to this site and the backend only', () => {
     const connect = directive('connect-src');
-    assert.ok(connect.startsWith("connect-src 'self'"));
-    assert.ok(!connect.includes('*'));
+    assert.equal(connect, "connect-src 'self' https://portfolio-chatbot.devpatuel.workers.dev");
   });
 
   it('keeps the rest strict', () => {
