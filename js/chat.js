@@ -252,6 +252,11 @@ function init() {
   }
 
   launcher.addEventListener('click', () => (panel.hidden ? open() : close()));
+  // Other buttons on the page (Patu in the hero) can open the chat too; they stay hidden until now.
+  for (const opener of document.querySelectorAll('[data-abrir-chat]')) {
+    opener.hidden = false;
+    opener.addEventListener('click', open);
+  }
   closeButton.addEventListener('click', close);
   panel.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') close();

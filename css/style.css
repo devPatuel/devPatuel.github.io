@@ -321,6 +321,54 @@ section + section { border-top: 1px solid var(--border); }
   border: 1px solid var(--border);
 }
 
+/* Patu in the hero: waves next to the photo and opens the chat (js/chat.js shows it). */
+.hero-figura { position: relative; display: inline-block; }
+.hero-patu {
+  position: absolute;
+  left: calc(100% - 0.4rem);
+  bottom: -0.3rem;
+  width: clamp(68px, 10vw, 96px);
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.hero-patu[hidden] { display: none; }
+.hero-patu svg { display: block; width: 100%; height: auto; overflow: visible; animation: patu-flota 3.2s ease-in-out infinite; }
+.hero-patu:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; border-radius: 12px; }
+.hero-patu-zapato { stroke: #14181c; }
+:root[data-tema="oscuro"] .hero-patu-zapato { stroke: #4a545d; }
+.hero-patu-codigo { font-family: var(--font-mono); font-size: 30px; font-weight: 500; fill: #f7f6f3; }
+.hero-patu-bocadillo {
+  position: absolute;
+  bottom: calc(100% + 0.3rem);
+  left: 40%;
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text);
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px 12px 12px 3px;
+  padding: 0.3rem 0.65rem;
+  transition: transform 0.2s ease;
+}
+.hero-patu:hover .hero-patu-bocadillo,
+.hero-patu:focus-visible .hero-patu-bocadillo { transform: translateY(-3px); }
+/* fill-box puts the origin at the arm's own bounding box: its bottom-left corner is the shoulder */
+.hero-patu-brazo { transform-box: fill-box; transform-origin: left bottom; animation: patu-saluda 1.6s ease-in-out infinite; }
+.hero-patu-ojos { transform-box: fill-box; transform-origin: center; animation: patu-parpadea 4.2s infinite; }
+@media (max-width: 480px) {
+  /* Narrow screens: the bubble grows to the left so it never leaves the page */
+  .hero-patu-bocadillo { left: auto; right: 0; border-radius: 12px 12px 3px 12px; }
+}
+@keyframes patu-saluda { 0%, 100% { transform: rotate(-8deg); } 50% { transform: rotate(16deg); } }
+@keyframes patu-flota { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+@keyframes patu-parpadea { 0%, 94%, 100% { transform: scaleY(1); } 97% { transform: scaleY(0.15); } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-patu svg, .hero-patu-brazo, .hero-patu-ojos { animation: none; }
+}
+
 .js .hero-revelar { opacity: 0; transition: opacity 0.6s ease; }
 .js .hero.is-listo .hero-revelar { opacity: 1; }
 
