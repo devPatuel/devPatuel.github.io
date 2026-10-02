@@ -299,22 +299,125 @@
         <div class="decision">
           <dt>Rápida: n8n como orquestador</dt>
           <dd>
-            <p class="flujo">Widget → n8n (webhook) → API de Claude o GPT → PostgreSQL</p>
-            <p>El flujo se monta y se cambia de forma visual: límites, llamada al modelo, registro y un aviso por correo o Slack si salta el señuelo. Encaja en un equipo pequeño que quiere iterar sin programar cada cambio. Ojo: n8n expuesto a internet necesita su propia protección (webhook autenticado, actualizaciones al día).</p>
+            <div class="flujo-pulsable" data-arch>
+              <ol class="flujo-pasos" aria-label="Flujo: Rápida: n8n como orquestador">
+                <li><span class="node flujo-paso" data-id="widget">Widget</span></li>
+                <li><span class="node flujo-paso" data-id="n8n">n8n</span></li>
+                <li><span class="node flujo-paso" data-id="llm">Claude o GPT</span></li>
+                <li><span class="node flujo-paso" data-id="pg">PostgreSQL</span></li>
+                <li><span class="node flujo-paso" data-id="avisos">Avisos</span></li>
+              </ol>
+              <p class="arch-hint" hidden>Pulsa un paso para ver qué hace.</p>
+              <dl class="decision-list arch-details">
+                <div class="decision" data-id="widget">
+                  <dt>Widget</dt>
+                  <dd>El mismo chat de esta web: pinta todo como texto y envía cada mensaje al webhook de n8n.</dd>
+                </div>
+                <div class="decision" data-id="n8n">
+                  <dt>n8n</dt>
+                  <dd>Un orquestador de flujos visual, en un servidor propio o en su nube. Recibe el mensaje en un webhook y lo pasa por nodos: comprobar el límite, llamar al modelo, guardar y avisar. Cambiar un paso es mover una caja, no desplegar código.</dd>
+                </div>
+                <div class="decision" data-id="llm">
+                  <dt>Claude o GPT</dt>
+                  <dd>El modelo grande, por API, de Anthropic o de OpenAI. Se paga por tokens (trozos de texto) de entrada y de salida, y en la consola del proveedor se fija un tope de gasto mensual.</dd>
+                </div>
+                <div class="decision" data-id="pg">
+                  <dt>PostgreSQL</dt>
+                  <dd>Guarda las conversaciones, los contadores de límites y las métricas. n8n tiene un nodo nativo para leer y escribir en ella.</dd>
+                </div>
+                <div class="decision" data-id="avisos">
+                  <dt>Avisos</dt>
+                  <dd>Si salta el señuelo, o el gasto se dispara, n8n manda un correo o un mensaje de Slack en el momento, sin esperar a que alguien abra un panel.</dd>
+                </div>
+              </dl>
+            </div>
+            <p>Encaja en un equipo pequeño que quiere iterar sin programar cada cambio. Ojo: n8n expuesto a internet necesita su propia protección (webhook autenticado, actualizaciones al día).</p>
           </dd>
         </div>
         <div class="decision">
           <dt>A medida: backend propio</dt>
           <dd>
-            <p class="flujo">Widget → WAF → API en Spring Boot → Redis (límites) → API de Claude → PostgreSQL + pgvector</p>
-            <p>Control total de cada capa, con pruebas como las de este proyecto. Redis lleva los contadores y pgvector guarda los documentos para el RAG. Encaja cuando el chat es parte del producto y tiene lógica de negocio propia.</p>
+            <div class="flujo-pulsable" data-arch>
+              <ol class="flujo-pasos" aria-label="Flujo: A medida: backend propio">
+                <li><span class="node flujo-paso" data-id="widget">Widget</span></li>
+                <li><span class="node flujo-paso" data-id="waf">WAF</span></li>
+                <li><span class="node flujo-paso" data-id="api">Spring Boot</span></li>
+                <li><span class="node flujo-paso" data-id="redis">Redis</span></li>
+                <li><span class="node flujo-paso" data-id="claude">Claude</span></li>
+                <li><span class="node flujo-paso" data-id="pgvector">PostgreSQL + pgvector</span></li>
+              </ol>
+              <p class="arch-hint" hidden>Pulsa un paso para ver qué hace.</p>
+              <dl class="decision-list arch-details">
+                <div class="decision" data-id="widget">
+                  <dt>Widget</dt>
+                  <dd>El mismo chat de esta web, hablando con una API propia en vez de con un Worker.</dd>
+                </div>
+                <div class="decision" data-id="waf">
+                  <dt>WAF</dt>
+                  <dd>Un cortafuegos de aplicaciones web: revisa cada petición antes de que llegue al servidor y corta bots, patrones de ataque conocidos y exceso de peticiones por IP.</dd>
+                </div>
+                <div class="decision" data-id="api">
+                  <dt>Spring Boot</dt>
+                  <dd>El equivalente a este Worker, en Java: valida, comprueba el pase y los límites, llama al modelo, filtra la salida y registra. Con pruebas como las de este proyecto.</dd>
+                </div>
+                <div class="decision" data-id="redis">
+                  <dt>Redis</dt>
+                  <dd>Un almacén en memoria muy rápido. Lleva los contadores de límites, que caducan solos al acabar el día, sin tocar la base de datos en cada mensaje.</dd>
+                </div>
+                <div class="decision" data-id="claude">
+                  <dt>Claude</dt>
+                  <dd>La API de Anthropic. Con prompt caching, las instrucciones que se repiten en cada mensaje se cobran más baratas.</dd>
+                </div>
+                <div class="decision" data-id="pgvector">
+                  <dt>PostgreSQL + pgvector</dt>
+                  <dd>Las conversaciones y, además, los documentos de la empresa guardados como vectores. Es la base del RAG: la API busca los fragmentos que tienen que ver con la pregunta y solo esos van al modelo.</dd>
+                </div>
+              </dl>
+            </div>
+            <p>Encaja cuando el chat es parte del producto y tiene lógica de negocio propia.</p>
           </dd>
         </div>
         <div class="decision">
           <dt>Gestionada: todo en AWS</dt>
           <dd>
-            <p class="flujo">Widget → CloudFront + WAF → API Gateway → Lambda → Amazon Bedrock (Claude) → RDS PostgreSQL</p>
-            <p>El modelo se usa desde la propia cuenta de AWS, con Bedrock Guardrails como filtro extra. Los datos no salen de la región que elijas y todo va en una sola factura. Encaja en una empresa que ya vive en AWS.</p>
+            <div class="flujo-pulsable" data-arch>
+              <ol class="flujo-pasos" aria-label="Flujo: Gestionada: todo en AWS">
+                <li><span class="node flujo-paso" data-id="widget">Widget</span></li>
+                <li><span class="node flujo-paso" data-id="cloudfront">CloudFront + WAF</span></li>
+                <li><span class="node flujo-paso" data-id="apigw">API Gateway</span></li>
+                <li><span class="node flujo-paso" data-id="lambda">Lambda</span></li>
+                <li><span class="node flujo-paso" data-id="bedrock">Bedrock (Claude)</span></li>
+                <li><span class="node flujo-paso" data-id="rds">RDS PostgreSQL</span></li>
+              </ol>
+              <p class="arch-hint" hidden>Pulsa un paso para ver qué hace.</p>
+              <dl class="decision-list arch-details">
+                <div class="decision" data-id="widget">
+                  <dt>Widget</dt>
+                  <dd>El mismo chat de esta web, servido desde AWS.</dd>
+                </div>
+                <div class="decision" data-id="cloudfront">
+                  <dt>CloudFront + WAF</dt>
+                  <dd>La red de distribución de AWS: sirve la web cerca de cada visitante y es la puerta donde se engancha AWS WAF, con reglas gestionadas contra bots y ataques comunes.</dd>
+                </div>
+                <div class="decision" data-id="apigw">
+                  <dt>API Gateway</dt>
+                  <dd>La puerta de la API: autenticación, límite de peticiones por segundo y cuotas por cliente, configurados sin escribir código.</dd>
+                </div>
+                <div class="decision" data-id="lambda">
+                  <dt>Lambda</dt>
+                  <dd>El código del bot como función sin servidor: arranca con cada petición y solo se paga el tiempo que se ejecuta.</dd>
+                </div>
+                <div class="decision" data-id="bedrock">
+                  <dt>Bedrock (Claude)</dt>
+                  <dd>Claude servido desde dentro de la cuenta de AWS. Bedrock Guardrails filtra temas prohibidos, datos personales y ataques de prompt antes y después del modelo.</dd>
+                </div>
+                <div class="decision" data-id="rds">
+                  <dt>RDS PostgreSQL</dt>
+                  <dd>PostgreSQL gestionado: AWS se encarga de las copias, los parches, las réplicas y el cifrado.</dd>
+                </div>
+              </dl>
+            </div>
+            <p>Los datos no salen de la región que elijas y todo va en una sola factura. Encaja en una empresa que ya vive en AWS.</p>
           </dd>
         </div>
       </dl>

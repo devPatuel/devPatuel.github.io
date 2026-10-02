@@ -860,5 +860,17 @@ section + section { border-top: 1px solid var(--border); }
   .comparativa td:nth-of-type(1)::before { content: "Gratis: "; font-weight: 600; }
   .comparativa td:nth-of-type(2)::before { content: "De pago: "; font-weight: 600; }
 }
-.flujo { font-family: var(--font-mono); font-size: 0.88rem; color: var(--warm); margin: 0 0 0.5em; }
+/* Clickable flows: same behaviour as the architecture diagrams (diagrama-portal.js). */
+.flujo-pulsable { margin: 0.6rem 0 0.4rem; }
+.flujo-pasos { list-style: none; display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem; padding: 0; margin: 0 0 0.6rem; }
+.flujo-pasos li { display: flex; align-items: center; gap: 0.45rem; }
+.flujo-pasos li + li::before { content: "→"; color: var(--text-dim); }
+.flujo-paso { font-family: var(--font-mono); font-size: 0.85rem; color: var(--text); background: var(--bg-2); border: 1px solid var(--border); border-radius: 999px; padding: 0.25rem 0.75rem; }
+.flujo-pulsable.is-enhanced .flujo-paso { cursor: pointer; }
+.flujo-pulsable.is-enhanced .flujo-paso:hover { border-color: var(--accent); }
+.flujo-paso:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.flujo-paso.is-selected { border-color: var(--accent); background: var(--selected-fill); color: var(--accent); }
+.flujo-pulsable.has-selection .flujo-paso:not(.is-selected) { opacity: 0.5; }
+.flujo-pulsable .arch-details { margin: 0; }
+.flujo-pulsable .arch-details .decision { margin-bottom: 0.4rem; }
 .decision dd p { margin: 0 0 0.5em; }
