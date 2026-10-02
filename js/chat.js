@@ -84,6 +84,8 @@ function createCaptcha(container) {
       if (widgetId === null) {
         widgetId = turnstile.render(container, {
           sitekey: CHAT_CONFIG.turnstileSiteKey,
+          // The box only shows up when Cloudflare needs the person to act (tick it); otherwise it stays hidden.
+          appearance: 'interaction-only',
           callback: (token) => settle('resolve', token),
           'error-callback': () => settle('reject', new Error('captcha error')),
         });

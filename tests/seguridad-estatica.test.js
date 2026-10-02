@@ -95,3 +95,10 @@ describe('the widget does not inherit the site-wide section rules', () => {
     assert.ok(!/createElement\(\s*['"](section|footer)['"]/.test(source));
   });
 });
+
+describe('the captcha stays out of sight', () => {
+  // Turnstile's default draws its box all the time; it should only appear when a person must act.
+  it('js/chat.js renders Turnstile with appearance interaction-only', () => {
+    assert.ok(read('js/chat.js').includes("appearance: 'interaction-only'"));
+  });
+});
