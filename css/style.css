@@ -514,8 +514,33 @@ section + section { border-top: 1px solid var(--border); }
 .js .hito { opacity: 0; transform: translateY(12px); transition: opacity 0.5s ease, transform 0.5s ease; }
 .js .hito.is-visible { opacity: 1; transform: none; }
 
+/* The line fills as you scroll (js/aparecer.js sets --progreso) and each dot lights up when it is reached. */
+.hitos { position: relative; }
+.hitos-progreso {
+  position: absolute;
+  left: -2px;
+  top: 0;
+  width: 2px;
+  height: calc(var(--progreso, 0) * 100%);
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent);
+  pointer-events: none;
+}
+.hito::before { transition: background 0.3s ease, box-shadow 0.3s ease; }
+.hito.is-encendido::before { background: var(--accent); animation: hito-destello 0.9s ease-out; }
+.hito-actual.is-encendido::before { animation: hito-destello 0.9s ease-out, hito-latido 2.4s ease-in-out 0.9s infinite; }
+@keyframes hito-destello {
+  0% { box-shadow: 0 0 0 0 var(--accent); }
+  100% { box-shadow: 0 0 0 12px transparent; }
+}
+@keyframes hito-latido {
+  0%, 100% { box-shadow: 0 0 0 0 transparent; }
+  50% { box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 35%, transparent); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .js .hito { opacity: 1; transform: none; transition: none; }
+  .hito::before, .hito.is-encendido::before, .hito-actual.is-encendido::before { transition: none; animation: none; }
 }
 
 /* tecnologías */
