@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { describe, it } from 'node:test';
 
 const read = (path) => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
@@ -39,9 +39,28 @@ describe('third-party addresses live in one file', () => {
   });
 });
 
-describe('the Content-Security-Policy of the home page allows the chat and nothing more', () => {
-  const html = read('index.html');
-  const csp = html.match(/http-equiv="Content-Security-Policy" content="([^"]*)"/)?.[1] ?? '';
+// Every page carries the chat, so every page carries the same policy: one exact line to update.
+const PAGES = ['index.html', 'cv.html', 'privacidad.html', ...readdirSync(new URL('../proyectos/', import.meta.url))
+  .filter((file) => file.endsWith('.html')).map((file) => `proyectos/${file}`)];
+const cspOf = (path) => read(path).match(/http-equiv="Content-Security-Policy" content="([^"]*)"/)?.[1] ?? '';
+
+describe('every page loads the chat', () => {
+  for (const page of PAGES) {
+    it(`${page} loads chat.js and chat.css`, () => {
+      const html = read(page);
+      assert.match(html, /<script type="module" src="(\.\.\/)?js\/chat\.js"><\/script>/);
+      assert.match(html, /<link rel="stylesheet" href="(\.\.\/)?css\/chat\.css" \/>/);
+    });
+  }
+
+  it('all pages share one Content-Security-Policy', () => {
+    const policies = new Set(PAGES.map(cspOf));
+    assert.equal(policies.size, 1, [...policies].join('\n'));
+  });
+});
+
+describe('the Content-Security-Policy allows the chat and nothing more', () => {
+  const csp = cspOf('index.html');
   const directive = (name) => csp.split(';').map((part) => part.trim()).find((part) => part.startsWith(`${name} `)) ?? '';
 
   it('lets scripts come from this site and Turnstile', () => {

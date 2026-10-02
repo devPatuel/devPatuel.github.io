@@ -20,7 +20,7 @@
   <meta property="og:image:height" content="630" />
   <meta property="og:image:alt" content="Jordi Patuel, desarrollador Java, Flutter y AWS" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jWJpzolVsjbyG4xpMGS0xwi/YHlQoPdDQBvqZ9jGw8I='; style-src 'self'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none';" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jWJpzolVsjbyG4xpMGS0xwi/YHlQoPdDQBvqZ9jGw8I=' https://challenges.cloudflare.com; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' http://localhost:8787; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'none'; form-action 'none';" />
   <script>
     (function () {
       var tema = null;
@@ -33,9 +33,11 @@
     })();
   </script>
   <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/chat.css" />
   <script src="../js/tema.js" defer></script>
   <script src="../js/diagrama-portal.js" defer></script>
   <script src="../js/copiar-email.js" defer></script>
+  <script type="module" src="../js/chat.js"></script>
 </head>
 <body>
   <a class="skip-link" href="#contenido">Ir al contenido</a>
@@ -72,7 +74,7 @@
     <section class="ficha-cabecera">
       <p class="ficha-volver"><a href="../index.html#proyectos">← Volver a proyectos</a></p>
       <h1 class="ficha-titulo"><img class="ficha-logo" src="../img/patu.svg" alt="" width="128" height="128" />Chatbot del portfolio</h1>
-      <p class="lede">Patu, el asistente de IA de esta web: responde preguntas sobre mi perfil profesional y está construido para aguantar a quien intente sacarle lo que no debe. Coste cero.</p>
+      <p class="lede">Patu, el asistente de IA de esta web: responde preguntas sobre mi perfil profesional y está construido para aguantar a quien intente sacarle lo que no debe. Coste cero. Pruébalo: es el botón de abajo a la derecha.</p>
       <dl class="ficha-datos">
         <div>
           <dt>Cuándo</dt>
@@ -99,10 +101,6 @@
         <li>
           <a href="https://github.com/devPatuel/portfolio-chatbot" target="_blank" rel="noopener noreferrer">portfolio-chatbot</a>
           <span>Código, rondas de ataques y documentación de seguridad</span>
-        </li>
-        <li>
-          <a href="../index.html">Pruébalo en la portada</a>
-          <span>El botón de Patu, abajo a la derecha</span>
         </li>
       </ul></dd>
         </div>
@@ -270,10 +268,6 @@
         <div class="decision">
           <dt>La lección del personaje</dt>
           <dd>Dar personalidad a Patu facilitó el ataque de cambio de papel: pasó de 1-2 éxitos de cada 5 a 4. Un personaje es justo lo que el atacante pide cambiar. Dos reglas explícitas lo devolvieron a 0 de 5 en los 14 ataques. Son 5 intentos con un modelo pequeño: es evidencia, no garantía.</dd>
-        </div>
-        <div class="decision">
-          <dt>El texto legal también es código</dt>
-          <dd>El primer borrador de la página de privacidad decía cosas que el código no cumplía. Ahora cada frase está contrastada con lo que se guarda de verdad, y durante cuánto.</dd>
         </div>
       </dl>
     </section>

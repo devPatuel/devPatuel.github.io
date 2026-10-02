@@ -129,3 +129,8 @@
 @media (max-width: 40rem) {
   .chat-panel { inset: 0; width: auto; height: auto; border-radius: 0; border: 0; }
 }
+
+/* The CV and the project pages get printed; the chat is not part of them. */
+@media print {
+  .chat-lanzador, .chat-panel { display: none !important; }
+}

@@ -15,6 +15,9 @@ const MESSAGES = {
   limit_global: 'El asistente ha llegado a su límite de hoy. Vuelve mañana o escribe a ',
 };
 const CAPTCHA_TIMEOUT_MS = 30000;
+// Resolved from this script, not from the page, so the chat works on /proyectos/ pages too.
+const ICON = new URL('../img/patu.svg', import.meta.url).href;
+const PRIVACY = new URL('../privacidad.html', import.meta.url).href;
 // Same breakpoint as css/chat.css: below it the panel covers the whole page and acts as a modal.
 const FULL_SCREEN = window.matchMedia('(max-width: 40rem)');
 
@@ -100,7 +103,7 @@ function init() {
   launcher.setAttribute('aria-expanded', 'false');
   launcher.setAttribute('aria-controls', 'chat-panel');
   const launcherIcon = element('img');
-  launcherIcon.src = 'img/patu.svg';
+  launcherIcon.src = ICON;
   launcherIcon.alt = '';
   launcher.append(launcherIcon);
 
@@ -112,7 +115,7 @@ function init() {
 
   const header = element('div', 'chat-cabecera');
   const headerIcon = element('img', 'chat-cabecera-icono');
-  headerIcon.src = 'img/patu.svg';
+  headerIcon.src = ICON;
   headerIcon.alt = '';
   const title = element('p', 'chat-titulo', 'Patu');
   const closeButton = element('button', 'chat-cerrar', '×');
@@ -143,7 +146,7 @@ function init() {
 
   const notice = element('p', 'chat-aviso', NOTICE);
   const privacyLink = element('a', 'chat-enlace', 'Más información');
-  privacyLink.href = 'privacidad.html';
+  privacyLink.href = PRIVACY;
   notice.append(privacyLink);
 
   panel.append(header, log, suggestions, status, captchaBox, form, notice);
