@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Web de NEXO — Jordi Patuel</title>
+  <meta name="description" content="Web de NEXO, un proceso individual de acompañamiento: sitio estático en Astro desplegado en Cloudflare con despliegue automático y seguridad revisada. Encargo de Jordi Patuel." />
+  <link rel="icon" href="../favicon.ico" sizes="48x48" />
+  <link rel="icon" href="../img/icon-192.png" type="image/png" sizes="192x192" />
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+  <!-- Link previews (LinkedIn, WhatsApp, email): crawlers need absolute URLs -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="es_ES" />
+  <meta property="og:site_name" content="Jordi Patuel" />
+  <meta property="og:title" content="Web de NEXO — Jordi Patuel" />
+  <meta property="og:description" content="Web de NEXO, un proceso individual de acompañamiento: sitio estático en Astro desplegado en Cloudflare con despliegue automático y seguridad revisada. Encargo de Jordi Patuel." />
+  <meta property="og:url" content="https://jordipatuel.com/proyectos/web-nexo.html" />
+  <meta property="og:image" content="https://jordipatuel.com/img/og.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Jordi Patuel, desarrollador Java, Flutter y AWS" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'sha256-jWJpzolVsjbyG4xpMGS0xwi/YHlQoPdDQBvqZ9jGw8I=' https://challenges.cloudflare.com; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://portfolio-chatbot.devpatuel.workers.dev; frame-src https://challenges.cloudflare.com; object-src 'none'; base-uri 'none'; form-action 'none';" />
+  <script>
+    (function () {
+      var tema = null;
+      try { tema = localStorage.getItem('tema'); } catch (e) {}
+      if (tema !== 'claro' && tema !== 'oscuro') {
+        tema = 'claro';
+      }
+      document.documentElement.dataset.tema = tema;
+      document.documentElement.classList.add('js');
+    })();
+  </script>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/chat.css" />
+  <script src="../js/tema.js" defer></script>
+  <script src="../js/diagrama-portal.js" defer></script>
+  <script src="../js/copiar-email.js" defer></script>
+  <script type="module" src="../js/chat.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Ir al contenido</a>
+
+  <!-- Shared arrow markers for every architecture diagram on the page -->
+  <svg class="diagram-defs" aria-hidden="true">
+    <defs>
+      <marker id="arch-arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--line)"></path>
+      </marker>
+      <marker id="arch-arrow-on" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"></path>
+      </marker>
+    </defs>
+  </svg>
+
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="wordmark" href="../index.html#inicio">Jordi Patuel</a>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="../index.html#trayectoria">Trayectoria</a>
+        <a href="../index.html#proyectos">Proyectos</a>
+        <a href="../cv.html">CV</a>
+        <a href="#contacto">Contacto</a>
+        <button class="tema-toggle" type="button" aria-pressed="false" aria-label="Cambiar a modo oscuro" hidden>
+          <svg class="icon icon-sol" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="3.5"/><path d="M10 2v2M10 16v2M18 10h-2M4 10H2M15.5 4.5l-1.4 1.4M5.9 14.1l-1.4 1.4M15.5 15.5l-1.4-1.4M5.9 5.9L4.5 4.5"/></svg>
+          <svg class="icon icon-luna" viewBox="0 0 20 20" aria-hidden="true"><path d="M17.5 10.66A7.5 7.5 0 119.34 2.5a5.83 5.83 0 008.16 8.16z"/></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="contenido" class="ficha" tabindex="-1">
+    <section class="ficha-cabecera">
+      <p class="ficha-volver"><a href="../index.html#proyectos">← Volver a proyectos</a></p>
+      <h1 class="ficha-titulo">Web de NEXO</h1>
+      <p class="lede">La web de Jose Luis González para presentar NEXO, su proceso individual de acompañamiento: qué es, para quién es, qué opciones hay y cómo empezar con un mensaje de WhatsApp.</p>
+      <dl class="ficha-datos">
+        <div>
+          <dt>Cuándo</dt>
+          <dd>2026 · Encargo</dd>
+        </div>
+        <div>
+          <dt>Rol</dt>
+          <dd>Diseño, desarrollo y despliegue, en solitario</dd>
+        </div>
+        <div>
+          <dt>Stack</dt>
+          <dd><ul class="stack-tags" role="list">
+        <li>Astro</li>
+        <li>TypeScript</li>
+        <li>CSS</li>
+        <li>Cloudflare</li>
+        <li>GitHub</li>
+      </ul></dd>
+        </div>
+        <div>
+          <dt>Enlaces</dt>
+          <dd><ul class="repo-list" role="list">
+        <li>
+          <a href="https://joseluisjuarez.com" target="_blank" rel="noopener noreferrer">joseluisjuarez.com</a>
+          <span>La web en producción</span>
+        </li>
+      </ul></dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Qué es</h2>
+      <ul class="feature-list">
+        <li>Una página estática y rápida, pensada para leerse en el móvil</li>
+        <li>Tres opciones de sesiones con su precio y un botón de contacto directo por WhatsApp en cada una</li>
+        <li>Preguntas frecuentes, marcadas para que Google pueda mostrarlas</li>
+        <li>Sin cookies, sin analítica y sin recursos de terceros</li>
+      </ul>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Dónde está desplegada</h2>
+      <p class="lede">En Cloudflare: el código, el dominio y la entrega de la web viven en la misma cuenta, y cada cambio llega a producción con un <code>git push</code>.</p>
+
+      <div class="arch arch-compact" data-arch>
+        <figure class="diagram" aria-labelledby="diagram-caption">
+          <svg viewBox="0 0 600 340" aria-label="Diagrama de despliegue: el repositorio de GitHub dispara la compilación en Cloudflare, que publica la web en su red; el visitante la recibe por HTTPS y contacta por WhatsApp">
+            <g class="link" data-a="repo" data-b="build"><line class="link-line" x1="200" y1="60" x2="240" y2="60"/></g>
+            <g class="link" data-a="build" data-b="edge"><line class="link-line" x1="400" y1="60" x2="440" y2="60"/></g>
+            <g class="link" data-a="edge" data-b="visitante"><line class="link-line" x1="480" y1="90" x2="480" y2="150"/></g>
+            <g class="link" data-a="visitante" data-b="whatsapp"><line class="link-line" x1="480" y1="210" x2="480" y2="270"/></g>
+            <g class="link" data-a="edge" data-b="dominio"><line class="link-line" x1="440" y1="80" x2="260" y2="150"/></g>
+
+            <g class="node" data-id="repo">
+              <rect x="40" y="30" width="160" height="60" rx="2"/>
+              <text x="120" y="55" text-anchor="middle" class="node-title">Repositorio</text>
+              <text x="120" y="74" text-anchor="middle" class="node-sub">GitHub · rama main</text>
+            </g>
+
+            <g class="node" data-id="build">
+              <rect x="240" y="30" width="160" height="60" rx="2"/>
+              <text x="320" y="55" text-anchor="middle" class="node-title">Compilación</text>
+              <text x="320" y="74" text-anchor="middle" class="node-sub">Cloudflare · Astro</text>
+            </g>
+
+            <g class="node node-accent" data-id="edge">
+              <rect x="440" y="30" width="120" height="60" rx="2"/>
+              <text x="500" y="55" text-anchor="middle" class="node-title">Red</text>
+              <text x="500" y="74" text-anchor="middle" class="node-sub">CDN · HTTPS</text>
+            </g>
+
+            <g class="node" data-id="dominio">
+              <rect x="100" y="150" width="160" height="60" rx="2"/>
+              <text x="180" y="175" text-anchor="middle" class="node-title">Dominio</text>
+              <text x="180" y="194" text-anchor="middle" class="node-sub">DNS en Cloudflare</text>
+            </g>
+
+            <g class="node" data-id="visitante">
+              <rect x="420" y="150" width="120" height="60" rx="2"/>
+              <text x="480" y="175" text-anchor="middle" class="node-title">Visitante</text>
+              <text x="480" y="194" text-anchor="middle" class="node-sub">navegador</text>
+            </g>
+
+            <g class="node" data-id="whatsapp">
+              <rect x="420" y="270" width="120" height="50" rx="2"/>
+              <text x="480" y="291" text-anchor="middle" class="node-title">WhatsApp</text>
+              <text x="480" y="308" text-anchor="middle" class="node-sub">contacto</text>
+            </g>
+          </svg>
+          <figcaption id="diagram-caption">Un push a main compila y publica la web sin pasos manuales.</figcaption>
+        </figure>
+
+        <div class="arch-panel" aria-live="polite">
+          <p class="arch-hint" hidden>Pulsa una pieza del diagrama para ver qué hace y con qué se conecta.</p>
+          <dl class="decision-list arch-details">
+            <div class="decision" data-id="repo">
+              <dt>Repositorio</dt>
+              <dd>Privado en GitHub. La rama <code>main</code> es la que se publica, así que es la única que hay que cuidar.</dd>
+            </div>
+            <div class="decision" data-id="build">
+              <dt>Compilación</dt>
+              <dd>Cloudflare detecta cada push, ejecuta <code>npm run build</code> y publica la carpeta resultante.</dd>
+            </div>
+            <div class="decision" data-id="edge">
+              <dt>Red</dt>
+              <dd>La web se sirve desde la red de Cloudflare, cerca del visitante. Fuerza HTTPS, activa HSTS y añade cabeceras de seguridad (CSP, <code>X-Frame-Options</code>, <code>nosniff</code>).</dd>
+            </div>
+            <div class="decision" data-id="dominio">
+              <dt>Dominio</dt>
+              <dd>El dominio y su DNS están en la misma cuenta, y la variante con <code>www</code> redirige a la principal para no duplicar la web.</dd>
+            </div>
+            <div class="decision" data-id="visitante">
+              <dt>Visitante</dt>
+              <dd>Recibe HTML ya generado, sin base de datos ni servidor propio, y casi sin JavaScript.</dd>
+            </div>
+            <div class="decision" data-id="whatsapp">
+              <dt>WhatsApp</dt>
+              <dd>Cada botón abre un chat con un mensaje ya escrito según la opción elegida. No hay formularios, así que la web no guarda datos de nadie.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Cómo se ha construido</h2>
+      <ul class="feature-list">
+        <li><strong>Astro</strong> genera HTML estático; el único JavaScript es la animación de los cuatro pasos, y la página funciona sin él</li>
+        <li><strong>Sin terceros:</strong> tipografías alojadas en la propia web, sin cookies ni analítica, y por eso sin banner</li>
+        <li><strong>Buscadores:</strong> mapa del sitio, URL canónica, etiquetas para compartir y datos estructurados de las preguntas frecuentes</li>
+        <li><strong>Animaciones:</strong> se desactivan si el sistema operativo lo pide</li>
+        <li><strong>Seguridad revisada antes de publicar:</strong> sin secretos en el repositorio, HTTPS obligatorio y cabeceras que limitan qué puede cargar la página</li>
+      </ul>
+    </section>
+
+    <section class="ficha-seccion">
+      <h2>Capturas</h2>
+      <figure class="shot shot-ancha">
+        <img src="../img/web-nexo/inicio.jpg" alt="Portada de la web de NEXO: logotipo, el titular «Vuelve a ti.», una frase de presentación y el botón «Quiero conocer NEXO» sobre un fondo oscuro." width="1400" height="780" loading="lazy" decoding="async" />
+        <figcaption>La portada: un titular, una frase y una única acción.</figcaption>
+      </figure>
+      <figure class="shot shot-ancha">
+        <img src="../img/web-nexo/proceso.jpg" alt="Sección del proceso: cuatro pasos numerados (ver, comprender, responsabilizar, integrar), cada uno con un símbolo animado a la derecha." width="1400" height="1460" loading="lazy" decoding="async" />
+        <figcaption>Los cuatro pasos del proceso se iluminan según se baja por la página.</figcaption>
+      </figure>
+      <figure class="shot shot-ancha">
+        <img src="../img/web-nexo/opciones.jpg" alt="Tres tarjetas de precios: sesión individual, proceso de cuatro sesiones y proceso de ocho sesiones, cada una con su lista de lo que incluye y su botón." width="1400" height="1492" loading="lazy" decoding="async" />
+        <figcaption>Tres opciones con precio claro, y debajo una salida para quien no sabe cuál elegir.</figcaption>
+      </figure>
+      <figure class="shot shot-ancha">
+        <img src="../img/web-nexo/sobre-mi.jpg" alt="Sección «Sobre mí»: texto sobre un fondo de vídeo en blanco y negro, con un recuadro reservado para la foto." width="1400" height="807" loading="lazy" decoding="async" />
+        <figcaption>«Sobre mí» tiene como fondo dos vídeos en blanco y negro, atenuados para que el texto sea el protagonista.</figcaption>
+      </figure>
+      <figure class="shot">
+        <img src="../img/web-nexo/movil.jpg" alt="Portada de la web en un móvil, con el menú plegado arriba a la derecha." width="780" height="1688" loading="lazy" decoding="async" />
+        <figcaption>En el móvil, que es desde donde se abrirá casi siempre, el menú se pliega.</figcaption>
+      </figure>
+    </section>
+  </main>
+
+  <nav class="ficha-siguiente" aria-label="Siguiente proyecto">
+    <a href="growtogether.html">Siguiente proyecto: GrowTogether →</a>
+  </nav>
+
+  <footer id="contacto" class="site-footer">
+    <h2>Contacto</h2>
+    <ul class="contact-list" role="list">
+      <li class="contacto-email">
+        <a class="contact-link" href="mailto:work@jordipatuel.com">
+          <svg class="icon icon-mail" viewBox="0 0 20 20" aria-hidden="true"><rect x="2" y="4" width="16" height="12" rx="1.5"/><path d="M3 5.5l7 5.5 7-5.5"/></svg>
+          <span>work@jordipatuel.com</span>
+        </a>
+        <button class="copiar-email" type="button" data-copiar="work@jordipatuel.com" aria-label="Copiar email" hidden>
+          <svg class="icon icon-copiar" viewBox="0 0 20 20" aria-hidden="true"><rect x="7" y="7" width="10" height="10" rx="1.5"/><path d="M13 7V4.5A1.5 1.5 0 0011.5 3h-8A1.5 1.5 0 002 4.5v8A1.5 1.5 0 003.5 14H6"/></svg>
+        </button>
+        <span class="copiar-estado" role="status"></span>
+      </li>
+      <li>
+        <a class="contact-link" href="https://github.com/devPatuel" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-github" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          <span>github.com/devPatuel</span>
+        </a>
+      </li>
+      <li>
+        <a class="contact-link" href="https://www.linkedin.com/in/jordi-patuel" target="_blank" rel="noopener noreferrer">
+          <svg class="icon icon-linkedin" viewBox="0 0 16 16" aria-hidden="true"><rect x="0.5" y="0.5" width="15" height="15" rx="2.5"/><text x="8" y="11.2" text-anchor="middle">in</text></svg>
+          <span>LinkedIn</span>
+        </a>
+      </li>
+      <li>
+        <a class="contact-link" href="../cv.html">
+          <svg class="icon icon-cv" viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v9M6.5 9L10 12.5 13.5 9"/><path d="M4 15.5h12"/></svg>
+          <span>Ver CV</span>
+        </a>
+      </li>
+    </ul>
+    <p class="copyright">© 2026 Jordi Patuel · Todos los derechos reservados</p>
+  </footer>
+</body>
+</html>

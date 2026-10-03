@@ -575,6 +575,7 @@ section + section { border-top: 1px solid var(--border); }
 .badge-typescript { --badge-bg: #3178c6; }
 .badge-cloudflare { --badge-bg: #f38020; --badge-text: #14181c; }
 .badge-llama { --badge-bg: #0866ff; }
+.badge-astro { --badge-bg: #ff5d01; --badge-text: #14181c; }
 
 .stack-categoria { margin-top: 1.6rem; }
 .stack-categoria:first-of-type { margin-top: 0; }
