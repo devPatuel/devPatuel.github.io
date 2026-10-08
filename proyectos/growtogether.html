@@ -138,6 +138,45 @@
     </section>
 
     <section class="ficha-seccion">
+      <h2>Cómo funciona, en vídeo</h2>
+      <p class="lede">Patu recorre el proyecto por dentro: los cuatro repositorios, el camino de una petición, la seguridad y cómo llega todo a producción.</p>
+      <figure class="shot shot-ancha">
+        <video class="video-ficha" controls preload="none" poster="../img/growtogether/video-portada.jpg" width="1920" height="1080">
+          <source src="../video/growtogether-por-dentro.mp4" type="video/mp4" />
+          <p>Tu navegador no puede reproducir el vídeo. <a href="../video/growtogether-por-dentro.mp4">Descárgalo aquí</a>.</p>
+        </video>
+        <figcaption>Las capturas son de la app con datos de prueba. El despliegue que se explica es el que usaba el proyecto mientras estuvo en línea.</figcaption>
+      </figure>
+      <details class="transcripcion">
+        <summary>Transcripción del vídeo</summary>
+        <h3>GrowTogether por dentro</h3>
+        <p>Llevas una racha de siete días… y el octavo se te olvida. GrowTogether es una app de hábitos con rachas y desafíos con amigos. Es el trabajo de fin de grado de Jordi. Soy Patu, y te enseño cómo funciona por dentro.</p>
+        <h3>Cuatro repositorios</h3>
+        <p>Por dentro son cuatro repositorios. La API, en Java con Spring Boot, es el motor y guarda los datos en PostgreSQL. La app móvil y el panel de administración están hechos en Flutter. Y entre los dos y la API hay un paquete compartido, que se llama DATA.</p>
+        <h3>Las capas de la API</h3>
+        <p>La API sigue siempre el mismo camino: controlador, servicio y repositorio. El controlador recibe la petición y valida lo que llega. El servicio decide qué hacer. Y el repositorio es el único que habla con la base de datos. Los datos salen en DTOs, nunca como entidades, para no enseñar campos internos como la contraseña.</p>
+        <h3>Una petición, paso a paso</h3>
+        <p>Veamos qué pasa cuando abres la app. Haces login y la API te devuelve un token JWT, firmado y válido durante veinticuatro horas. En cada petición siguiente, el token viaja en la cabecera Authorization. Antes de llegar a ningún controlador, la petición pasa por dos filtros: primero el límite de peticiones, y después el del token. Si el token es válido, entras. Si no, un 401. Y todo lo que cuelga de admin exige además el rol de administrador.</p>
+        <h3>El límite de peticiones</h3>
+        <p>El primer filtro cuenta los intentos de login y de registro. Diez por minuto, por cada IP. El undécimo recibe un 429: demasiados intentos. Así alguien no puede probar contraseñas sin parar.</p>
+        <h3>Revocar un token</h3>
+        <p>Un JWT, una vez firmado, es válido hasta que caduca. ¿Y si cambias la contraseña? Dentro del token va un número: la versión del token. Y el usuario guarda la suya en la base de datos. Cuando cambias tu contraseña, un admin te la resetea o te bloquea, esa versión sube uno. El token viejo trae la versión antigua, no coincide, y deja de valer.</p>
+        <h3>Rachas y puntos</h3>
+        <p>Cada vez que marcas un hábito, la API recalcula tu racha. Si el hábito es de ciertos días, como lunes, miércoles y viernes, los otros días no cuentan ni la rompen. Y cada noche, a las 00:01, una tarea marca como no completado todo lo que quedó pendiente el día anterior. Los puntos se ganan en los desafíos: diez por día, y un diez por ciento más por cada día de racha, hasta un máximo de triple.</p>
+        <h3>DATA, el paquete compartido</h3>
+        <p>La app y el panel hablan con la misma API. Para no escribirlo todo dos veces, existe DATA. Tiene los modelos, el cliente HTTP y los repositorios. Un interceptor pone el token en cada petición, y si la API responde 401, borra la sesión guardada. Cualquier cambio en un endpoint se toca en un solo sitio. Y las apps lo importan por versión, con una etiqueta de git: ahora mismo, la 0.5.0.</p>
+        <h3>La app móvil</h3>
+        <p>La app usa Provider: diez gestores de estado, separados de la interfaz. Los recordatorios son notificaciones locales, programadas en el propio móvil. Si pierdes la conexión, un banner te avisa y el panel principal se sirve de una copia guardada.</p>
+        <h3>El panel de administración</h3>
+        <p>El panel es Flutter Web. Al entrar, comprueba que tu rol sea administrador; si no, descarta el token. Desde ahí puedes bloquear usuarios, pero siempre con un motivo, y queda anotado en el registro de auditoría. También gestionas los consejos del día y ves las métricas.</p>
+        <h3>Del commit a producción</h3>
+        <p>Cuando Jordi sube cambios a la rama principal, la API se despliega sola. GitHub construye la imagen de Docker, la sube a un registro y se conecta por SSH al servidor de AWS para levantarla. En DATA, cada cambio pasa por análisis estático y tests antes de aceptarse.</p>
+        <h3>Cierre</h3>
+        <p>Y esto es GrowTogether por dentro. El código de los cuatro repositorios es público, en GitHub: devPatuel. Soy Patu. Hasta la próxima.</p>
+      </details>
+    </section>
+
+    <section class="ficha-seccion">
       <h2>Arquitectura</h2>
       <p class="lede">Por dentro son cuatro repositorios: la app y el panel de administración se apoyan en una API propia y un paquete de datos compartido.</p>
 
